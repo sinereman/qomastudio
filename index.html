@@ -19,7 +19,7 @@
             align-items: center;
         }
 
-        /* Arka Plan WebGL Vortex ve Parçacıklar */
+        /* Arka Plan Yıldız Matrisi */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -27,6 +27,7 @@
             width: 100vw;
             height: 100vh;
             z-index: 0;
+            pointer-events: none;
         }
 
         /* Merkez Konteyner */
@@ -39,14 +40,15 @@
             justify-content: center;
         }
 
-        /* Ekran Görüntüsündeki Orijinal Dönen Sarmal (Vortex Lines) */
-        .vortex-container {
+        /* Senin Kodundaki Orijinal Dönen Vortex Çizgileri */
+        .vortex-lines {
             position: absolute;
-            width: 650px;
-            height: 650px;
-            animation: spin 35s linear infinite;
+            width: 500px;
+            height: 500px;
+            left: calc(50% - 250px);
+            top: calc(50% - 250px);
             pointer-events: none;
-            opacity: 0.35;
+            animation: spin 40s linear infinite;
         }
 
         @keyframes spin {
@@ -54,55 +56,53 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Orijinal Dairesel Buton Yapısı */
+        /* Merkez Dairesel Buton */
         .qoma-btn {
-            width: 160px;
-            height: 160px;
+            width: 140px;
+            height: 140px;
             border-radius: 50%;
             background: radial-gradient(circle, #18181b 0%, #09090b 70%, #000000 100%);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             position: relative;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease;
             outline: none;
         }
 
         .qoma-btn:hover {
-            border-color: rgba(255, 255, 255, 0.45);
-            box-shadow: 0 0 70px rgba(255, 255, 255, 0.1), inset 0 0 35px rgba(255, 255, 255, 0.1);
-            transform: scale(1.03);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.02);
         }
 
-        /* Buton İçindeki Çerçeve Çizgisi */
+        /* Buton İç Çerçevesi */
         .qoma-btn::before {
             content: '';
             position: absolute;
-            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             pointer-events: none;
         }
 
         .btn-text {
+            color: #FFFFFF;
             font-size: 1.1rem;
-            font-weight: 400;
-            letter-spacing: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.4rem;
             text-transform: lowercase;
-            margin-left: 0.5rem;
-            color: #f4f4f5;
+            margin-left: 0.4rem;
         }
 
         /* Alt Yazılar ve Mühür */
         .subtitle {
             font-size: 0.75rem;
             font-weight: 300;
-            color: #71717a;
+            color: #8E8E96;
             letter-spacing: 0.4rem;
             margin-top: 2.5rem;
             text-transform: uppercase;
@@ -113,7 +113,7 @@
         .engineer-credit {
             font-size: 0.6rem;
             font-weight: 500;
-            color: #52525b;
+            color: #666;
             letter-spacing: 0.25rem;
             text-transform: uppercase;
             margin-top: 1rem;
@@ -124,19 +124,19 @@
 </head>
 <body>
 
-    <!-- WebGL Arka Plan ve Yıldız Matrisi -->
+    <!-- Arka Plan Yıldız Efekti -->
     <canvas id="glcanvas"></canvas>
 
     <!-- Merkez Yapı -->
     <div class="center-container">
         
-        <!-- Orijinal Dönen Sarmal (Vortex) Çizgileri -->
-        <div class="vortex-container">
-            <svg width="650" height="650" viewBox="-100 -100 200 200">
-                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.8" transform="rotate(0)" />
-                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(90)" />
-                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.8" transform="rotate(180)" />
-                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(270)" />
+        <!-- Orijinal Vortex Çizgileri (SVG) -->
+        <div class="vortex-lines">
+            <svg width="500" height="500" viewBox="-100 -100 200 200">
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.16" transform="rotate(0)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.1" transform="rotate(90)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.16" transform="rotate(180)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.1" transform="rotate(270)" />
             </svg>
         </div>
 
@@ -151,7 +151,7 @@
 
     </div>
 
-    <!-- WebGL Yıldız Efekti -->
+    <!-- Yıldız Matrisi Scripti -->
     <script>
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
@@ -180,11 +180,11 @@
                 return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
             }
 
-        void main() {
+            void main() {
                 vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
                 float starNoise = random(floor(uv * 180.0));
                 float starTwinkle = sin(u_time * 2.0 + random(floor(uv * 50.0)) * 10.0) * 0.5 + 0.5;
-                float stars = step(0.994, starNoise) * starTwinkle;
+                float stars = step(0.995, starNoise) * starTwinkle;
                 
                 vec3 starColor = vec3(0.7, 0.7, 0.8) * stars;
                 gl_FragColor = vec4(starColor, 1.0);
