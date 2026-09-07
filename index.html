@@ -127,7 +127,7 @@
             pointer-events: none;
         }
 
-        /* Su Damlası / Dalga Efekti Halkası (Tıklandığında Çalışır) */
+        /* Su Damlası / Dalga Efekti Halkası */
         .ripple-effect {
             position: absolute;
             top: 50%;
@@ -142,16 +142,8 @@
         }
 
         @keyframes rippleAnim {
-            0% {
-                width: 180px;
-                height: 180px;
-                opacity: 0.9;
-            }
-            100% {
-                width: 450px;
-                height: 450px;
-                opacity: 0;
-            }
+            0% { width: 180px; height: 180px; opacity: 0.9; }
+            100% { width: 450px; height: 450px; opacity: 0; }
         }
 
         .ripple-active {
@@ -341,7 +333,7 @@
                 margin-top: 3rem;
             }
             .btn-text {
-                font-size: 3.5rem;
+                font-size: 1.5rem;
             }
             .finale-title {
                 font-size: 2rem;
@@ -390,13 +382,13 @@
             <div class="scroll-indicator" id="t-scroll">scroll to explore</div>
         </div>
 
-        <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA -->
+        <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA (GÜNCELLENMİŞ AKADEMİK METİN) -->
         <div class="section">
             <div class="glass-panel">
-                <h2 class="section-title" id="t-sec1-title">THE SCIENCE OF SOUND.<br>THE ARCHITECTURE OF MIND.</h2>
+                <h2 class="section-title" id="t-sec1-title">ACOUSTIC PHARMACOLOGY.<br>NEURO-ENGINEERING THE MIND.</h2>
                 <p class="section-text" id="t-sec1-text">
-                    QOMA is not an ordinary auditory experience. At the intersection of neuroscience, psychoacoustics, and advanced digital signal processing (DSP) technologies, it is the result of <strong>over 7 years of in-depth research</strong>.<br><br>
-                    The human brain has a tendency to entrain to external rhythmic stimuli. QOMA creates a third internal rhythm in the brainstem using <em>binaural beats</em> sent to each ear with microscopic differences and perfectly calculated <em>isochronic pulses</em>. By actively stimulating Delta, Theta, Alpha, and low Beta waves; it triggers your transition into deep sleep, sharp focus, or a state of pure isolation within seconds amidst chaos.
+                    QOMA is not an ordinary auditory experience; it is a rigorous neurophysiological tool. By bypassing traditional musical structures that trigger predictive coding, QOMA forces the brain into absolute cognitive surrender.<br><br>
+                    Utilizing <strong>16Hz and 40Hz sub-bass carriers</strong> with a precise 0.1Hz amplitude modulation, it directly stimulates the Vagus nerve to enforce cardiac coherence. Furthermore, by deploying 400Hz monaural beats and avoiding sensory dissonance through strict ERB (Equivalent Rectangular Bandwidth) filters, it biomechanically entrains your brainwaves from high Beta directly into restorative <strong>Delta (1-4 Hz)</strong> states within minutes.
                 </p>
             </div>
             <div class="image-container">
@@ -404,13 +396,13 @@
             </div>
         </div>
 
-        <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR -->
+        <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR (GÜNCELLENMİŞ AKADEMİK METİN) -->
         <div class="section reverse">
             <div class="glass-panel">
                 <h2 class="section-title" id="t-sec2-title">PURE MATHEMATICS.<br>ZERO AUDIO FILES.</h2>
                 <p class="section-text" id="t-sec2-text">
-                    A true sanctuary never repeats itself. At the heart of QOMA, there is no place for static and recorded audio files (MP3/WAV).<br><br>
-                    Every texture you hear is a generative architecture produced live in milliseconds on your device's processor. It is synthesized instantly using custom-designed analog synthesizer algorithms, slowly breathing Moog-like state-variable filters, and massive reverb networks. The unique mathematics of the East's microtonal comma system (53-TET) and the West's harmonic structure build an organically evolving, never-before-heard sonic space in your headphones. Pure harmony of code, mathematics, and hardware.
+                    A true sanctuary never repeats itself. QOMA operates on real-time generative algorithms, bypassing static MP3s to create a mathematically flawless acoustic shield.<br><br>
+                    Every texture is synthesized live on your device. We utilize Paul Kellet’s equiripple IIR filters to generate true <strong>1/f pink and brown noise dynamics</strong>, masking environmental transients and deactivating the Reticular Activating System (RAS). Combined with the harmonic purity of the 53-TET microtonal comma system, QOMA builds an organically evolving, neuro-acoustically pure void in your headphones. Pure harmony of code, mathematics, and hardware.
                 </p>
             </div>
             <div class="image-container">
@@ -422,8 +414,7 @@
         <div class="finale-section">
             <h2 class="finale-title" id="t-sec3-title">ISOLATION FROM CHAOS.</h2>
             <p class="finale-text" id="t-sec3-text">
-                The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>
-                There is no outside world here. There is only you, your mind, and an infinite digital void.
+                The modern world is a sea of overstimulation. QOMA acts as a sensory deprivation tank, mathematically layered to block chaotic frequencies. There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
             <button class="cta-btn" id="t-cta" onclick="window.scrollTo(0, 0)">Back to Sanctuary</button>
         </div>
@@ -451,30 +442,30 @@
                     top: window.innerHeight,
                     behavior: 'smooth'
                 });
-            }, 300); // Küçük bir estetik gecikme (efekti hissettirmek için)
+            }, 300); // Küçük bir estetik gecikme
         }
 
         const i18n = {
             en: {
                 subtitle: "Digital Sanctuary",
                 scroll: "scroll to explore",
-                sec1Title: "THE SCIENCE OF SOUND.<br>THE ARCHITECTURE OF MIND.",
-                sec1Text: "QOMA is not an ordinary auditory experience. At the intersection of neuroscience, psychoacoustics, and advanced digital signal processing (DSP) technologies, it is the result of <strong>over 7 years of in-depth research</strong>.<br><br>The human brain has a tendency to entrain to external rhythmic stimuli. QOMA creates a third internal rhythm in the brainstem using <em>binaural beats</em> sent to each ear with microscopic differences and perfectly calculated <em>isochronic pulses</em>. By actively stimulating Delta, Theta, Alpha, and low Beta waves; it triggers your transition into deep sleep, sharp focus, or a state of pure isolation within seconds amidst chaos.",
+                sec1Title: "ACOUSTIC PHARMACOLOGY.<br>NEURO-ENGINEERING THE MIND.",
+                sec1Text: "QOMA is not an ordinary auditory experience; it is a rigorous neurophysiological tool. By bypassing traditional musical structures that trigger predictive coding, QOMA forces the brain into absolute cognitive surrender.<br><br>Utilizing <strong>16Hz and 40Hz sub-bass carriers</strong> with a precise 0.1Hz amplitude modulation, it directly stimulates the Vagus nerve to enforce cardiac coherence. Furthermore, by deploying 400Hz monaural beats and avoiding sensory dissonance through strict ERB (Equivalent Rectangular Bandwidth) filters, it biomechanically entrains your brainwaves from high Beta directly into restorative <strong>Delta (1-4 Hz)</strong> states within minutes.",
                 sec2Title: "PURE MATHEMATICS.<br>ZERO AUDIO FILES.",
-                sec2Text: "A true sanctuary never repeats itself. At the heart of QOMA, there is no place for static and recorded audio files (MP3/WAV).<br><br>Every texture you hear is a generative architecture produced live in milliseconds on your device's processor. It is synthesized instantly using custom-designed analog synthesizer algorithms, slowly breathing Moog-like state-variable filters, and massive reverb networks. The unique mathematics of the East's microtonal comma system (53-TET) and the West's harmonic structure build an organically evolving, never-before-heard sonic space in your headphones. Pure harmony of code, mathematics, and hardware.",
+                sec2Text: "A true sanctuary never repeats itself. QOMA operates on real-time generative algorithms, bypassing static MP3s to create a mathematically flawless acoustic shield.<br><br>Every texture is synthesized live on your device. We utilize Paul Kellet’s equiripple IIR filters to generate true <strong>1/f pink and brown noise dynamics</strong>, masking environmental transients and deactivating the Reticular Activating System (RAS). Combined with the harmonic purity of the 53-TET microtonal comma system, QOMA builds an organically evolving, neuro-acoustically pure void in your headphones. Pure harmony of code, mathematics, and hardware.",
                 sec3Title: "ISOLATION FROM CHAOS.",
-                sec3Text: "The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>There is no outside world here. There is only you, your mind, and an infinite digital void.",
+                sec3Text: "The modern world is a sea of overstimulation. QOMA acts as a sensory deprivation tank, mathematically layered to block chaotic frequencies. There is no outside world here. There is only you, your mind, and an infinite digital void.",
                 cta: "Back to Sanctuary"
             },
             jp: {
                 subtitle: "デジタル・サンクチュアリ",
                 scroll: "スクロールして探索",
-                sec1Title: "音の科学。<br>精神の建築。",
-                sec1Text: "QOMAは単なる聴覚体験ではありません。神経科学、音響心理学、そして高度なデジタル信号処理（DSP）技術の交差点にある、<strong>7年以上にわたる徹底した研究</strong>の結晶です。<br><br>人間の脳は、外部からのリズミカルな刺激に同調（エントレインメント）する傾向があります。QOMAは、左右の耳に微小な差異で送られる<em>バイノーラル・ビート</em>と、完璧に計算された<em>アイソクロニック・パルス</em>を使用して、脳幹に第三の内なるリズムを作り出します。デルタ波、シータ波、アルファ波、低ベータ波をターゲットにして刺激することで、混沌の中にあっても、数秒以内に深い睡眠、鋭い集中、あるいは純粋な隔離状態への移行を促します。",
+                sec1Title: "音響薬理学。<br>精神のニューロエンジニアリング。",
+                sec1Text: "QOMAは単なる聴覚体験ではなく、厳密な神経生理学的ツールです。予測コーディングを引き起こす従来の音楽構造を回避することで、QOMAは脳を絶対的な認知的降伏状態へと強制します。<br><br>正確な0.1Hzの振幅変調を持つ<strong>16Hzおよび40Hzのサブバス・キャリア</strong>を利用し、迷走神経を直接刺激して心臓のコヒーレンスを強制します。さらに、400Hzのモノラル・ビートを展開し、厳密なERB（等価矩形帯域幅）フィルターによって感覚的不協和を回避することで、数分以内に高ベータ波から回復力のある<strong>デルタ波（1-4 Hz）</strong>状態へと脳波をバイオメカニカルに同調させます。",
                 sec2Title: "純粋な数学。<br>音声ファイルゼロ。",
-                sec2Text: "真のサンクチュアリ（聖域）は、決して自己を繰り返しません。QOMAの中心には、静的で録音された音声ファイル（MP3/WAV）の居場所はありません。<br><br>あなたが耳にするすべてのテクスチャは、デバイスのプロセッサ上でミリ秒単位でライブ生成されるジェネレーティブなアーキテクチャです。カスタム設計のアナログ・シンセサイザー・アルゴリズム、ゆっくりと呼吸するMoog風の状態変数フィルター、そして巨大なリバーブ・ネットワークを使用して、瞬時に合成されます。東洋の微分音程システム（53-TET）と西洋の和声構造のユニークな数学が、ヘッドフォンの中に、有機的に進化し続ける、かつて聞いたことのない音響空間を構築します。コード、数学、そしてハードウェアの完璧な調和です。",
+                sec2Text: "真のサンクチュアリは決して自己を繰り返しません。QOMAはリアルタイムのジェネレーティブ・アルゴリズムで動作し、静的なMP3をバイパスして、数学的に完璧な音響シールドを作成します。<br><br>すべてのテクスチャはデバイス上でライブ合成されます。Paul Kelletの等リップルIIRフィルターを使用して真の<strong>1/fピンクノイズとブラウンノイズのダイナミクス</strong>を生成し、環境の過渡現象をマスキングして網様体賦活系（RAS）を非アクティブ化します。53-TET微分音コンマシステムの調和の純度と組み合わせることで、QOMAはヘッドフォンの中に、有機的に進化する神経音響的に純粋な空間を構築します。コード、数学、ハードウェアの純粋な調和です。",
                 sec3Title: "混沌からの隔離。",
-                sec3Text: "現代社会は、精神を絶え間なく砲撃する過剰刺激の海です。QOMAは、これらの混沌とした周波数をブロックする音響シールドとして機能します。ピンク、ブラウン、ブルー、バイオレットノイズのダイナミクスで精神的な疲労をマスキングしながら、魂が本来の自然な静けさに戻ることを可能にします。<br><br>ここには外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
+                sec3Text: "現代社会は過剰刺激の海です。QOMAは感覚遮断タンクとして機能し、混沌とした周波数をブロックするために数学的に階層化されています。ここには外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
                 cta: "聖域に戻る"
             }
         };
