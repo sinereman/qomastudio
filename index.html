@@ -302,6 +302,13 @@
 </head>
 <body>
 
+    <!-- GİZLİ SES ÇALAR (MP3 DOSYASI) -->
+    <!-- 'qoma_ambience.mp3' kısmını kendi mp3 dosya adınla değiştirebilirsin -->
+    <audio id="bg-audio" loop>
+        <source src="qoma_ambience.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
     <!-- DİL SEÇİCİ -->
     <div class="lang-switch">
         <span id="btn-en" class="active" onclick="setLang('en')">ENG</span>
@@ -320,7 +327,8 @@
 
         <!-- BÖLÜM 1: GİRİŞ (HERO) -->
         <div class="hero-section">
-            <button class="qoma-btn" onclick="window.scrollTo(0, window.innerHeight)">
+            <!-- QOMA Butonuna tıklandığında hem ses başlar hem aşağı kaydırılır -->
+            <button class="qoma-btn" onclick="startExperience()">
                 <div class="btn-text">QOMA</div>
             </button>
             
@@ -367,13 +375,25 @@
                 The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>
                 There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
-            <button class="cta-btn" id="t-cta">Join the Experience</button>
+            <button class="cta-btn" id="t-cta" onclick="startExperience()">Join the Experience</button>
         </div>
 
     </div>
 
-    <!-- DİL DEĞİŞTİRME (i18n) SCRIPT -->
+    <!-- SES TETİKLEME VE DİL SCRIPTİ -->
     <script>
+        // QOMA Butonuna basıldığında sesi oynatan ve sayfayı kaydıran fonksiyon
+        function startExperience() {
+            const audio = document.getElementById('bg-audio');
+            audio.play().catch(error => {
+                console.log("Audio play blocked or error:", error);
+            });
+            window.scrollTo({
+                top: window.innerHeight,
+                behavior: 'smooth'
+            });
+        }
+
         const i18n = {
             en: {
                 subtitle: "Digital Sanctuary",
