@@ -89,38 +89,87 @@
             position: relative;
         }
 
+        /* Dairesel Lüks QOMA Butonu - Tam Vortex Merkezinde */
         .qoma-btn {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: none;
-            border: none;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #232326 0%, #0c0c0e 70%, #000000 100%);
+            border: 1px solid rgba(183, 183, 194, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            box-shadow: 0 0 50px rgba(183, 183, 194, 0.25);
+            transition: transform 0.2s ease, border-color 0.3s ease;
             outline: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
+            z-index: 10;
+        }
+
+        .qoma-btn:hover {
+            border-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .qoma-btn:active {
+            transform: translate(-50%, -50%) scale(0.92);
+        }
+
+        /* Buton İç Bezel */
+        .btn-bezel {
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            pointer-events: none;
+        }
+
+        /* Su Damlası / Dalga Efekti Halkası (Tıklandığında Çalışır) */
+        .ripple-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        @keyframes rippleAnim {
+            0% {
+                width: 180px;
+                height: 180px;
+                opacity: 0.9;
+            }
+            100% {
+                width: 450px;
+                height: 450px;
+                opacity: 0;
+            }
+        }
+
+        .ripple-active {
+            animation: rippleAnim 0.8s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
         }
 
         .btn-text {
             color: #FFFFFF;
-            font-size: 5.5rem;
-            font-weight: 300;
-            letter-spacing: 1.8rem;
-            margin-right: -1.8rem; 
+            font-size: 1.8rem; 
+            font-weight: 500;
+            letter-spacing: 0.5rem;
+            margin-right: -0.5rem; 
             text-transform: uppercase;
-            transition: opacity 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        .qoma-btn:hover .btn-text {
-            opacity: 0.8;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
         .hero-text-container {
             position: absolute;
-            top: calc(50% + 120px);
+            top: calc(50% + 125px);
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -326,8 +375,11 @@
 
         <!-- BÖLÜM 1: GİRİŞ (HERO) -->
         <div class="hero-section">
-            <button class="qoma-btn" onclick="startExperience()">
-                <div class="btn-text">QOMA</div>
+            <!-- Dairesel Lüks QOMA Butonu ve Dalga Efekti -->
+            <button class="qoma-btn" onclick="startExperience(event)">
+                <div class="btn-bezel"></div>
+                <div class="ripple-effect" id="ripple"></div>
+                <span class="btn-text">QOMA</span>
             </button>
             
             <div class="hero-text-container">
@@ -373,22 +425,33 @@
                 The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>
                 There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
-            <button class="cta-btn" id="t-cta" onclick="startExperience()">Join the Experience</button>
+            <button class="cta-btn" id="t-cta" onclick="window.scrollTo(0, 0)">Back to Sanctuary</button>
         </div>
 
     </div>
 
-    <!-- SES TETİKLEME VE DİL SCRIPTİ -->
+    <!-- SES TETİKLEME, DALGA EFEKTİ VE DİL SCRIPTİ -->
     <script>
-        function startExperience() {
+        function startExperience(event) {
+            // Su damlası (Ripple) efektini tetikle
+            const ripple = document.getElementById('ripple');
+            ripple.classList.remove('ripple-active');
+            void ripple.offsetWidth; // Animasyonu resetle
+            ripple.classList.add('ripple-active');
+
+            // Sesi başlat
             const audio = document.getElementById('bg-audio');
             audio.play().catch(error => {
                 console.log("Audio play blocked or error:", error);
             });
-            window.scrollTo({
-                top: window.innerHeight,
-                behavior: 'smooth'
-            });
+
+            // Sayfayı aşağı kaydır
+            setTimeout(() => {
+                window.scrollTo({
+                    top: window.innerHeight,
+                    behavior: 'smooth'
+                });
+            }, 300); // Küçük bir estetik gecikme (efekti hissettirmek için)
         }
 
         const i18n = {
@@ -401,7 +464,7 @@
                 sec2Text: "A true sanctuary never repeats itself. At the heart of QOMA, there is no place for static and recorded audio files (MP3/WAV).<br><br>Every texture you hear is a generative architecture produced live in milliseconds on your device's processor. It is synthesized instantly using custom-designed analog synthesizer algorithms, slowly breathing Moog-like state-variable filters, and massive reverb networks. The unique mathematics of the East's microtonal comma system (53-TET) and the West's harmonic structure build an organically evolving, never-before-heard sonic space in your headphones. Pure harmony of code, mathematics, and hardware.",
                 sec3Title: "ISOLATION FROM CHAOS.",
                 sec3Text: "The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>There is no outside world here. There is only you, your mind, and an infinite digital void.",
-                cta: "Join the Experience"
+                cta: "Back to Sanctuary"
             },
             jp: {
                 subtitle: "デジタル・サンクチュアリ",
@@ -412,7 +475,7 @@
                 sec2Text: "真のサンクチュアリ（聖域）は、決して自己を繰り返しません。QOMAの中心には、静的で録音された音声ファイル（MP3/WAV）の居場所はありません。<br><br>あなたが耳にするすべてのテクスチャは、デバイスのプロセッサ上でミリ秒単位でライブ生成されるジェネレーティブなアーキテクチャです。カスタム設計のアナログ・シンセサイザー・アルゴリズム、ゆっくりと呼吸するMoog風の状態変数フィルター、そして巨大なリバーブ・ネットワークを使用して、瞬時に合成されます。東洋の微分音程システム（53-TET）と西洋の和声構造のユニークな数学が、ヘッドフォンの中に、有機的に進化し続ける、かつて聞いたことのない音響空間を構築します。コード、数学、そしてハードウェアの完璧な調和です。",
                 sec3Title: "混沌からの隔離。",
                 sec3Text: "現代社会は、精神を絶え間なく砲撃する過剰刺激の海です。QOMAは、これらの混沌とした周波数をブロックする音響シールドとして機能します。ピンク、ブラウン、ブルー、バイオレットノイズのダイナミクスで精神的な疲労をマスキングしながら、魂が本来の自然な静けさに戻ることを可能にします。<br><br>ここには外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
-                cta: "今すぐ体験する"
+                cta: "聖域に戻る"
             }
         };
 
@@ -443,7 +506,6 @@
         const gl = canvas.getContext('webgl');
 
         function resize() {
-            // Retina Ekranlar İçin Kristal Netliğinde Piksel Yoğunluğu (DPR)
             const dpr = window.devicePixelRatio || 1;
             canvas.width = window.innerWidth * dpr;
             canvas.height = window.innerHeight * dpr;
@@ -494,7 +556,6 @@
                 return v;
             }
 
-            // Renk Bantlanmasını (Banding) Yok Eden Dither Fonksiyonu
             float ditherNoise(vec2 co) {
                 return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
             }
@@ -531,7 +592,6 @@
                 float vignette = smoothstep(1.1, 0.15, length(p));
                 vec3 finalColor = (smokeColor + vortexColor) * vignette;
 
-                // Geçişleri pürüzsüzleştiren Dither Ekstresi
                 finalColor += (ditherNoise(gl_FragCoord.xy + uTime) - 0.5) * 0.007;
 
                 gl_FragColor = vec4(finalColor, 1.0);
