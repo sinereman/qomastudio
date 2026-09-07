@@ -19,8 +19,7 @@
             align-items: center;
         }
 
-        /* Arka Plan GLSL Vortex Çizgileri */
-        #vortex-canvas {
+        #glcanvas {
             position: fixed;
             top: 0;
             left: 0;
@@ -30,26 +29,6 @@
             pointer-events: none;
         }
 
-        /* Bağımsız Titreşen Yıldızlar Katmanı */
-        .stars-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .star {
-            position: absolute;
-            background-color: #ffffff;
-            border-radius: 50%;
-            box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
-            transition: opacity 1.5s ease-in-out;
-        }
-
-        /* Merkez Konteyner */
         .center-container {
             position: relative;
             z-index: 2;
@@ -59,7 +38,6 @@
             justify-content: center;
         }
 
-        /* Dairesel Merkez Buton (App.js Stili) */
         .qoma-btn {
             width: 140px;
             height: 140px;
@@ -73,15 +51,14 @@
             cursor: pointer;
             position: relative;
             box-shadow: 0 0 45px rgba(183, 183, 194, 0.3);
-            transition: transform 0.2s ease;
             outline: none;
+            transition: transform 0.2s ease;
         }
 
         .qoma-btn:active {
             transform: scale(0.92);
         }
 
-        /* Buton İç Bezel ve Işıma */
         .btn-bezel {
             position: absolute;
             top: 6px; left: 6px; right: 6px; bottom: 6px;
@@ -112,7 +89,6 @@
             margin-left: 5px;
         }
 
-        /* Alt Yazılar ve Mühür (App.js Metinleri ve Hizalamaları) */
         .subtitle {
             font-size: 13px;
             font-weight: 300;
@@ -138,15 +114,10 @@
 </head>
 <body>
 
-    <!-- Arka Plan Vortex Shader (App.js VortexShader Birebir) -->
-    <canvas id="vortex-canvas"></canvas>
+    <canvas id="glcanvas"></canvas>
 
-    <!-- Bağımsız Yanıp Sönen Yıldızlar (App.js Star Bileşeni) -->
-    <div class="stars-container" id="starsContainer"></div>
-
-    <!-- Merkez Arayüz -->
     <div class="center-container">
-        <button class="qoma-btn" onclick="location.reload()">
+        <button class="qoma-btn">
             <div class="btn-bezel"></div>
             <div class="btn-notch"></div>
             <span class="btn-text">qoma</span>
@@ -156,10 +127,8 @@
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
     </div>
 
-    <!-- Scriptler: Vortex Shader + Bağımsız Yıldız Matrisi -->
     <script>
-        // --- 1. VORTEX SHADER (App.js VortexShader Kaynağı Birebir) ---
-        const canvas = document.getElementById('vortex-canvas');
+        const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
         function resize() {
@@ -177,6 +146,7 @@
             }
         `;
 
+        // Gönderdiğin app.js içindeki gerçek Vortex Shader matematiği (WebGL uyarlanmış hali)
         const fsSource = `
             precision highp float;
             uniform float uTime;
@@ -244,43 +214,6 @@
             requestAnimationFrame(render);
         }
         render();
-
-        // --- 2. BAĞIMSIZ TİTREŞEN YILDIZLAR (App.js Star Bileşeni Mantığı) ---
-        const container = document.getElementById('starsContainer');
-        const starCount = 90;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const exclusionRadius = 90; // Buton üzerine yıldız gelmesin
-
-        for (let i = 0; i < starCount; i++) {
-            let x, y;
-            do {
-                x = Math.random() * window.innerWidth;
-                y = Math.random() * window.innerHeight;
-            } while (Math.hypot(x - centerX, y - centerY) < exclusionRadius);
-
-            const star = document.createElement('div');
-            const size = 1.2 + Math.random() * 2.2;
-            const baseOpacity = 0.15 + Math.random() * 0.35;
-            
-            star.className = 'star';
-            star.style.left = x + 'px';
-            star.style.top = y + 'px';
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.opacity = baseOpacity;
-            container.appendChild(star);
-
-            // Her yıldız kendi bağımsız hızında ve rastgele aralıklarla yanıp söner
-            function twitch() {
-                const targetOpacity = Math.max(0.02, baseOpacity * (0.2 + Math.random() * 1.2));
-                const duration = 800 + Math.random() * 2500;
-                star.style.transition = `opacity ${duration}ms ease-in-out`;
-                star.style.opacity = targetOpacity;
-                setTimeout(twitch, duration);
-            }
-            setTimeout(twitch, Math.random() * 3000);
-        }
     </script>
 </body>
 </html>
