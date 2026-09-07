@@ -303,7 +303,6 @@
 <body>
 
     <!-- GİZLİ SES ÇALAR (MP3 DOSYASI) -->
-    <!-- 'qoma_ambience.mp3' kısmını kendi mp3 dosya adınla değiştirebilirsin -->
     <audio id="bg-audio" loop>
         <source src="qoma_ambience.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -327,7 +326,6 @@
 
         <!-- BÖLÜM 1: GİRİŞ (HERO) -->
         <div class="hero-section">
-            <!-- QOMA Butonuna tıklandığında hem ses başlar hem aşağı kaydırılır -->
             <button class="qoma-btn" onclick="startExperience()">
                 <div class="btn-text">QOMA</div>
             </button>
@@ -382,7 +380,6 @@
 
     <!-- SES TETİKLEME VE DİL SCRIPTİ -->
     <script>
-        // QOMA Butonuna basıldığında sesi oynatan ve sayfayı kaydıran fonksiyon
         function startExperience() {
             const audio = document.getElementById('bg-audio');
             audio.play().catch(error => {
@@ -440,14 +437,18 @@
         }
     </script>
 
-    <!-- WEBGL VE YILDIZ MOTORU SCRİPTİ -->
+    <!-- WEBGL, RETINA DPR VE DITHER KALİTE MOTORU -->
     <script>
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
         function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            // Retina Ekranlar İçin Kristal Netliğinde Piksel Yoğunluğu (DPR)
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
             gl.viewport(0, 0, canvas.width, canvas.height);
         }
         window.addEventListener('resize', resize);
@@ -493,6 +494,11 @@
                 return v;
             }
 
+            // Renk Bantlanmasını (Banding) Yok Eden Dither Fonksiyonu
+            float ditherNoise(vec2 co) {
+                return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+            }
+
             void main() {
                 vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
                 float t = uTime * 0.14;
@@ -524,6 +530,9 @@
 
                 float vignette = smoothstep(1.1, 0.15, length(p));
                 vec3 finalColor = (smokeColor + vortexColor) * vignette;
+
+                // Geçişleri pürüzsüzleştiren Dither Ekstresi
+                finalColor += (ditherNoise(gl_FragCoord.xy + uTime) - 0.5) * 0.007;
 
                 gl_FragColor = vec4(finalColor, 1.0);
             }
