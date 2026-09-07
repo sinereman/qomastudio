@@ -29,65 +29,65 @@
             z-index: 0;
         }
 
-        /* Merkez Buton Yapısı */
-        .ui-layer {
+        /* Siyah Opak Çerçeve (Frame) */
+        .ui-frame {
             position: relative;
             z-index: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            background-color: #050505; /* Tamamen opak, koyu siyah arka plan */
+            border: 1px solid rgba(255, 255, 255, 0.05); /* Çok hafif, şık bir çerçeve sınırı */
+            border-radius: 12px;
+            padding: 5rem 6rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9); /* Çerçeveyi yıldızlardan koparan derinlik gölgesi */
         }
 
-        /* Lüks Arayüz Butonu (Glassmorphism) */
+        /* Merkez Buton Yapısı */
         .qoma-btn {
-            background: rgba(15, 15, 15, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            background: rgba(15, 15, 15, 1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: #ffffff;
-            padding: 2rem 3.5rem;
-            border-radius: 100px; /* Hap şeklinde yuvarlak yapı */
+            padding: 1.5rem 3rem;
+            border-radius: 100px;
             font-size: 3.5rem;
-            font-weight: 200;
-            letter-spacing: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 1.2rem;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            transition: all 0.4s ease;
             
-            /* Letter spacing'den kaynaklı sağdaki fazlalığı ortalamak için */
-            padding-right: 2rem; 
-            text-indent: 1.5rem; 
+            /* Letter spacing ortalama düzeltmesi */
+            padding-right: 1.8rem; 
+            text-indent: 1.2rem; 
         }
 
-        /* Buton Hover Efekti (İçeriden parlayan ışık) */
         .qoma-btn:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 0 50px rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            background: rgba(30, 30, 30, 1);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             transform: scale(1.02);
         }
 
         .subtitle {
-            font-size: 0.75rem;
-            font-weight: 300;
-            color: #777;
-            letter-spacing: 0.5rem;
-            margin-top: 2rem;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: #888;
+            letter-spacing: 0.4rem;
+            margin-top: 2.5rem;
             text-transform: uppercase;
             pointer-events: none;
-            margin-right: -0.5rem;
+            margin-right: -0.4rem;
         }
 
-        /* Mühendislik İmzası */
+        /* Belirginleştirilmiş Mühendislik İmzası */
         .engineer-credit {
-            position: absolute;
-            bottom: -8rem;
-            font-size: 0.55rem;
-            font-weight: 400;
-            color: #444;
-            letter-spacing: 0.2rem;
+            font-size: 0.75rem; /* Boyutu büyüttük */
+            font-weight: 500;   /* Kalınlaştırdık */
+            color: #666;        /* Rengini daha görünür yaptık */
+            letter-spacing: 0.25rem;
             text-transform: uppercase;
+            margin-top: 1.5rem; /* Subtitle'ın hemen altına aldık */
             pointer-events: none;
         }
     </style>
@@ -97,8 +97,8 @@
     <!-- WebGL Vortex ve Yıldızlar -->
     <canvas id="glcanvas"></canvas>
 
-    <!-- UI Katmanı -->
-    <div class="ui-layer">
+    <!-- Siyah Opak Kutu İçindeki UI Katmanı -->
+    <div class="ui-frame">
         <button class="qoma-btn">QOMA</button>
         <div class="subtitle">Digital Sanctuary</div>
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
@@ -124,52 +124,33 @@
             }
         `;
 
-        // Vortex ve Yıldızlar Fragment Shader
         const fsSource = `
             precision mediump float;
             uniform vec2 u_resolution;
             uniform float u_time;
 
-            // Rastgelelik fonksiyonu
             float random(vec2 st) {
                 return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
             }
 
             void main() {
-                // Ekran koordinatlarını merkeze al
                 vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
-                
-                // Polar koordinatlara çevir (Açı ve Yarıçap)
                 float r = length(uv);
                 float a = atan(uv.y, uv.x);
                 
-                // Dönen Vortex Matematiği
-                // Sarmal efekti oluşturmak için açıya yarıçapı ve zamanı ekliyoruz
                 float spiral = a + r * 6.0 - u_time * 0.8;
                 float vortex = sin(spiral) * 0.5 + 0.5;
                 
-                // Merkeze ve kenarlara doğru kararma efekti
                 float fadeOut = exp(-r * 3.5); 
                 vortex *= fadeOut;
                 
-                // Yanıp Sönen Yıldızlar
                 float starNoise = random(floor(uv * 180.0));
-                // Zaman ve pozisyona bağlı yanıp sönme (Twinkle)
                 float starTwinkle = sin(u_time * 3.0 + random(floor(uv * 50.0)) * 15.0) * 0.5 + 0.5;
-                // Sadece belli bir eşiğin üzerindeki pikselleri yıldız yap
                 float stars = step(0.996, starNoise) * starTwinkle;
                 
-                // Renk Paleti
-                // Vortex için çok ince, karanlık mavi-gri tonlar
                 vec3 vortexColor = mix(vec3(0.0), vec3(0.08, 0.09, 0.12), vortex);
-                
-                // Yıldızlar için saf beyaz
                 vec3 starColor = vec3(0.8, 0.8, 0.9) * stars;
-                
-                // Merkeze mutlak karanlık bir "Kara Delik" yerleştir
                 float blackHole = smoothstep(0.08, 0.25, r);
-                
-                // Son rengi hesapla
                 vec3 finalColor = (vortexColor + starColor) * blackHole;
                 
                 gl_FragColor = vec4(finalColor, 1.0);
