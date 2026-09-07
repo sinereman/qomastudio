@@ -10,7 +10,7 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #030303;
+            background-color: #000000;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
             overflow: hidden;
@@ -19,7 +19,7 @@
             align-items: center;
         }
 
-        /* WebGL Arka Plan */
+        /* WebGL Arka Planı (Vortex ve Yıldızlar) */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -29,7 +29,7 @@
             z-index: 0;
         }
 
-        /* Siyah Opak Çerçeve (Frame) */
+        /* Merkez Arayüz Çerçevesi */
         .ui-frame {
             position: relative;
             z-index: 1;
@@ -37,74 +37,78 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: #050505; /* Tamamen opak, koyu siyah arka plan */
-            border: 1px solid rgba(255, 255, 255, 0.05); /* Çok hafif, şık bir çerçeve sınırı */
-            border-radius: 12px;
-            padding: 5rem 6rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9); /* Çerçeveyi yıldızlardan koparan derinlik gölgesi */
+            background-color: rgba(5, 5, 5, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 4.5rem 6rem;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
         }
 
-        /* Merkez Buton Yapısı */
+        /* QOMA Butonu */
         .qoma-btn {
-            background: rgba(15, 15, 15, 1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(15, 15, 15, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            padding: 1.5rem 3rem;
+            padding: 1.5rem 3.5rem;
             border-radius: 100px;
             font-size: 3.5rem;
-            font-weight: 300;
-            letter-spacing: 1.2rem;
+            font-weight: 200;
+            letter-spacing: 1.5rem;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.4s ease;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
             
-            /* Letter spacing ortalama düzeltmesi */
-            padding-right: 1.8rem; 
-            text-indent: 1.2rem; 
+            /* Harf boşluğunu ortalama ayarı */
+            padding-right: 2rem; 
+            text-indent: 1.5rem; 
         }
 
         .qoma-btn:hover {
             background: rgba(30, 30, 30, 1);
             border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05);
             transform: scale(1.02);
         }
 
         .subtitle {
-            font-size: 0.85rem;
-            font-weight: 400;
+            font-size: 0.8rem;
+            font-weight: 300;
             color: #888;
-            letter-spacing: 0.4rem;
-            margin-top: 2.5rem;
+            letter-spacing: 0.5rem;
+            margin-top: 2rem;
             text-transform: uppercase;
             pointer-events: none;
-            margin-right: -0.4rem;
+            margin-right: -0.5rem;
         }
 
-        /* Belirginleştirilmiş Mühendislik İmzası */
+        /* Mühendislik Mührü */
         .engineer-credit {
-            font-size: 0.75rem; /* Boyutu büyüttük */
-            font-weight: 500;   /* Kalınlaştırdık */
-            color: #666;        /* Rengini daha görünür yaptık */
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #666;
             letter-spacing: 0.25rem;
             text-transform: uppercase;
-            margin-top: 1.5rem; /* Subtitle'ın hemen altına aldık */
+            margin-top: 1.5rem;
             pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- WebGL Vortex ve Yıldızlar -->
+    <!-- WebGL Arka Plan Katmanı -->
     <canvas id="glcanvas"></canvas>
 
-    <!-- Siyah Opak Kutu İçindeki UI Katmanı -->
+    <!-- Merkez UI Çerçevesi -->
     <div class="ui-frame">
         <button class="qoma-btn">QOMA</button>
         <div class="subtitle">Digital Sanctuary</div>
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
     </div>
 
-    <!-- Shader Matematiği -->
+    <!-- WebGL / Shader Motoru -->
     <script>
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
@@ -124,6 +128,7 @@
             }
         `;
 
+        // Uygulamanın DNA'sından gelen Vortex ve Yıldız Matematiği
         const fsSource = `
             precision mediump float;
             uniform vec2 u_resolution;
@@ -135,24 +140,26 @@
 
             void main() {
                 vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+                
                 float r = length(uv);
                 float a = atan(uv.y, uv.x);
                 
-                float spiral = a + r * 6.0 - u_time * 0.8;
+                // Dönen Vortex (Sarmal Etkisi)
+                float spiral = a + r * 5.0 - u_time * 0.5;
                 float vortex = sin(spiral) * 0.5 + 0.5;
-                
-                float fadeOut = exp(-r * 3.5); 
+                float fadeOut = exp(-r * 3.0); 
                 vortex *= fadeOut;
                 
-                float starNoise = random(floor(uv * 180.0));
-                float starTwinkle = sin(u_time * 3.0 + random(floor(uv * 50.0)) * 15.0) * 0.5 + 0.5;
-                float stars = step(0.996, starNoise) * starTwinkle;
+                // Yanıp Sönen Yıldızlar
+                float starNoise = random(floor(uv * 160.0));
+                float starTwinkle = sin(u_time * 2.5 + random(floor(uv * 40.0)) * 10.0) * 0.5 + 0.5;
+                float stars = step(0.995, starNoise) * starTwinkle;
                 
-                vec3 vortexColor = mix(vec3(0.0), vec3(0.08, 0.09, 0.12), vortex);
-                vec3 starColor = vec3(0.8, 0.8, 0.9) * stars;
-                float blackHole = smoothstep(0.08, 0.25, r);
+                vec3 vortexColor = mix(vec3(0.0), vec3(0.06, 0.07, 0.1), vortex);
+                vec3 starColor = vec3(0.75, 0.75, 0.85) * stars;
+                float blackHole = smoothstep(0.05, 0.22, r);
+                
                 vec3 finalColor = (vortexColor + starColor) * blackHole;
-                
                 gl_FragColor = vec4(finalColor, 1.0);
             }
         `;
