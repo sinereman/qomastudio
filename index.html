@@ -10,13 +10,16 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            background-color: #000;
+            background-color: #030303;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-            overflow: hidden; /* Kaydırmayı şimdilik kapatıyoruz, tam ekran deneyim */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* WebGL Arka Planımız */
+        /* WebGL Arka Plan */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -24,62 +27,79 @@
             width: 100vw;
             height: 100vh;
             z-index: 0;
-            opacity: 0.8; /* Yazıların okunabilirliği için hafif kısık */
         }
 
-        /* Arayüz Katmanı */
+        /* Merkez Buton Yapısı */
         .ui-layer {
             position: relative;
             z-index: 1;
-            width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
-            pointer-events: none; /* Mouse'un arka planla etkileşimi için */
         }
 
-        h1 {
-            font-size: 4.5rem;
+        /* Lüks Arayüz Butonu (Glassmorphism) */
+        .qoma-btn {
+            background: rgba(15, 15, 15, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #ffffff;
+            padding: 2rem 3.5rem;
+            border-radius: 100px; /* Hap şeklinde yuvarlak yapı */
+            font-size: 3.5rem;
             font-weight: 200;
-            letter-spacing: 1.2rem;
-            margin: 0;
-            margin-right: -1.2rem; /* Harf boşluğundan kaynaklı kaymayı düzeltir */
+            letter-spacing: 1.5rem;
             text-transform: uppercase;
-            text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            
+            /* Letter spacing'den kaynaklı sağdaki fazlalığı ortalamak için */
+            padding-right: 2rem; 
+            text-indent: 1.5rem; 
+        }
+
+        /* Buton Hover Efekti (İçeriden parlayan ışık) */
+        .qoma-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
         }
 
         .subtitle {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 300;
-            color: #888;
-            letter-spacing: 0.4rem;
-            margin-top: 1.5rem;
-            margin-right: -0.4rem;
+            color: #777;
+            letter-spacing: 0.5rem;
+            margin-top: 2rem;
             text-transform: uppercase;
+            pointer-events: none;
+            margin-right: -0.5rem;
         }
 
-        /* Senin Ustalık Mührün */
+        /* Mühendislik İmzası */
         .engineer-credit {
             position: absolute;
-            bottom: 2.5rem;
+            bottom: -8rem;
             font-size: 0.55rem;
             font-weight: 400;
-            color: #555; /* Çok bağırmayan, şık bir gri */
+            color: #444;
             letter-spacing: 0.2rem;
             text-transform: uppercase;
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- WebGL Shader Arka Planı -->
+    <!-- WebGL Vortex ve Yıldızlar -->
     <canvas id="glcanvas"></canvas>
 
-    <!-- Ön Yüz / Tipografi -->
+    <!-- UI Katmanı -->
     <div class="ui-layer">
-        <h1>QOMA</h1>
+        <button class="qoma-btn">QOMA</button>
         <div class="subtitle">Digital Sanctuary</div>
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
     </div>
@@ -89,7 +109,6 @@
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
-        // Kanvası tam ekran yap
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
@@ -98,7 +117,6 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Vertex Shader (Sadece ekranı kaplayan düz bir yüzey oluşturur)
         const vsSource = `
             attribute vec2 position;
             void main() {
@@ -106,68 +124,58 @@
             }
         `;
 
-        // Fragment Shader (Nefes alan karanlık hiçlik matematiği)
+        // Vortex ve Yıldızlar Fragment Shader
         const fsSource = `
             precision mediump float;
             uniform vec2 u_resolution;
             uniform float u_time;
 
-            // Pseudo-random noise fonksiyonu
-            float random (in vec2 st) {
+            // Rastgelelik fonksiyonu
+            float random(vec2 st) {
                 return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
             }
 
-            // Pürüzsüz gürültü (Smooth Noise)
-            float noise (in vec2 st) {
-                vec2 i = floor(st);
-                vec2 f = fract(st);
-                float a = random(i);
-                float b = random(i + vec2(1.0, 0.0));
-                float c = random(i + vec2(0.0, 1.0));
-                float d = random(i + vec2(1.0, 1.0));
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                return mix(a, b, u.x) + (c - a)* u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-            }
-
-            // Fractional Brownian Motion (Akışkan dalgalanma efekti)
-            float fbm (in vec2 st) {
-                float value = 0.0;
-                float amplitude = 0.5;
-                for (int i = 0; i < 5; i++) {
-                    value += amplitude * noise(st);
-                    st *= 2.0;
-                    amplitude *= 0.5;
-                }
-                return value;
-            }
-
             void main() {
-                vec2 st = gl_FragCoord.xy / u_resolution.xy;
-                st.x *= u_resolution.x / u_resolution.y;
-
-                vec2 q = vec2(0.0);
-                q.x = fbm(st + 0.02 * u_time);
-                q.y = fbm(st + vec2(1.0));
-
-                vec2 r = vec2(0.0);
-                // Dalgalanma hızı u_time çarpanıyla belirleniyor (çok yavaşlattım)
-                r.x = fbm(st + 1.0 * q + vec2(1.7, 9.2) + 0.05 * u_time);
-                r.y = fbm(st + 1.0 * q + vec2(8.3, 2.8) + 0.02 * u_time);
-
-                float f = fbm(st + r);
-
-                // Renk Paleti (Koyu Siyah, Çok Koyu Gri ve hafif mavimsi/mor gece tonu)
-                vec3 color = mix(vec3(0.02, 0.02, 0.03), vec3(0.08, 0.08, 0.1), clamp((f*f)*4.0, 0.0, 1.0));
+                // Ekran koordinatlarını merkeze al
+                vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
                 
-                // Karartma (Void hissi için)
-                color = mix(color, vec3(0.0, 0.0, 0.0), clamp(length(q), 0.0, 1.0));
-                color = mix(color, vec3(0.03, 0.03, 0.04), clamp(length(r.x), 0.0, 1.0));
-
-                gl_FragColor = vec4((f * f * f + 0.6 * f * f + 0.5 * f) * color, 1.0);
+                // Polar koordinatlara çevir (Açı ve Yarıçap)
+                float r = length(uv);
+                float a = atan(uv.y, uv.x);
+                
+                // Dönen Vortex Matematiği
+                // Sarmal efekti oluşturmak için açıya yarıçapı ve zamanı ekliyoruz
+                float spiral = a + r * 6.0 - u_time * 0.8;
+                float vortex = sin(spiral) * 0.5 + 0.5;
+                
+                // Merkeze ve kenarlara doğru kararma efekti
+                float fadeOut = exp(-r * 3.5); 
+                vortex *= fadeOut;
+                
+                // Yanıp Sönen Yıldızlar
+                float starNoise = random(floor(uv * 180.0));
+                // Zaman ve pozisyona bağlı yanıp sönme (Twinkle)
+                float starTwinkle = sin(u_time * 3.0 + random(floor(uv * 50.0)) * 15.0) * 0.5 + 0.5;
+                // Sadece belli bir eşiğin üzerindeki pikselleri yıldız yap
+                float stars = step(0.996, starNoise) * starTwinkle;
+                
+                // Renk Paleti
+                // Vortex için çok ince, karanlık mavi-gri tonlar
+                vec3 vortexColor = mix(vec3(0.0), vec3(0.08, 0.09, 0.12), vortex);
+                
+                // Yıldızlar için saf beyaz
+                vec3 starColor = vec3(0.8, 0.8, 0.9) * stars;
+                
+                // Merkeze mutlak karanlık bir "Kara Delik" yerleştir
+                float blackHole = smoothstep(0.08, 0.25, r);
+                
+                // Son rengi hesapla
+                vec3 finalColor = (vortexColor + starColor) * blackHole;
+                
+                gl_FragColor = vec4(finalColor, 1.0);
             }
         `;
 
-        // Shader'ları derleme fonksiyonu
         function compileShader(gl, type, source) {
             const shader = gl.createShader(type);
             gl.shaderSource(shader, source);
@@ -184,14 +192,9 @@
         gl.linkProgram(program);
         gl.useProgram(program);
 
-        // Tam ekranı kaplayacak iki üçgenin koordinatları
         const vertices = new Float32Array([
-            -1.0, -1.0,
-             1.0, -1.0,
-            -1.0,  1.0,
-            -1.0,  1.0,
-             1.0, -1.0,
-             1.0,  1.0
+            -1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0, -1.0,  1.0,  1.0
         ]);
 
         const buffer = gl.createBuffer();
@@ -205,7 +208,6 @@
         const timeLocation = gl.getUniformLocation(program, "u_time");
         const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
 
-        // Animasyon Döngüsü
         let startTime = Date.now();
         function render() {
             let currentTime = (Date.now() - startTime) / 1000;
