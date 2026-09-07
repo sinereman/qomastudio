@@ -19,7 +19,6 @@
             align-items: center;
         }
 
-        /* WebGL Arka Planı (Vortex ve Yıldızlar) */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -29,7 +28,6 @@
             z-index: 0;
         }
 
-        /* Merkez Arayüz Çerçevesi */
         .ui-frame {
             position: relative;
             z-index: 1;
@@ -37,16 +35,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: rgba(5, 5, 5, 0.75);
+            background-color: rgba(3, 3, 3, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: 16px;
             padding: 4.5rem 6rem;
             box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
         }
 
-        /* QOMA Butonu */
         .qoma-btn {
             background: rgba(15, 15, 15, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -60,8 +57,6 @@
             cursor: pointer;
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-            
-            /* Harf boşluğunu ortalama ayarı */
             padding-right: 2rem; 
             text-indent: 1.5rem; 
         }
@@ -84,7 +79,6 @@
             margin-right: -0.5rem;
         }
 
-        /* Mühendislik Mührü */
         .engineer-credit {
             font-size: 0.65rem;
             font-weight: 500;
@@ -98,17 +92,14 @@
 </head>
 <body>
 
-    <!-- WebGL Arka Plan Katmanı -->
     <canvas id="glcanvas"></canvas>
 
-    <!-- Merkez UI Çerçevesi -->
     <div class="ui-frame">
         <button class="qoma-btn">QOMA</button>
         <div class="subtitle">Digital Sanctuary</div>
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
     </div>
 
-    <!-- WebGL / Shader Motoru -->
     <script>
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
@@ -128,39 +119,68 @@
             }
         `;
 
-        // Uygulamanın DNA'sından gelen Vortex ve Yıldız Matematiği
+        // Uygulamanın DNA'sındaki Gerçek Akışkan Duman / Domain Warping Shader'ı
         const fsSource = `
-            precision mediump float;
+            precision highp float;
             uniform vec2 u_resolution;
             uniform float u_time;
 
-            float random(vec2 st) {
-                return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+            float hash21(vec2 p) {
+                p = fract(p * vec2(123.34, 456.21));
+                p += dot(p, p + 45.32);
+                return fract(p.x * p.y);
+            }
+
+            float valueNoise(vec2 p) {
+                vec2 i = floor(p);
+                vec2 f = fract(p);
+                float a = hash21(i);
+                float b = hash21(i + vec2(1.0, 0.0));
+                float c = hash21(i + vec2(0.0, 1.0));
+                float d = hash21(i + vec2(1.0, 1.0));
+                vec2 u = f * f * (3.0 - 2.0 * f);
+                return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+            }
+
+            float fbm(vec2 p) {
+                float v = 0.0;
+                float amp = 0.5;
+                for (int i = 0; i < 4; i++) {
+                    v += amp * valueNoise(p);
+                    p *= 2.03;
+                    amp *= 0.5;
+                }
+                return v;
             }
 
             void main() {
-                vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
-                
-                float r = length(uv);
-                float a = atan(uv.y, uv.x);
-                
-                // Dönen Vortex (Sarmal Etkisi)
-                float spiral = a + r * 5.0 - u_time * 0.5;
-                float vortex = sin(spiral) * 0.5 + 0.5;
-                float fadeOut = exp(-r * 3.0); 
-                vortex *= fadeOut;
-                
-                // Yanıp Sönen Yıldızlar
-                float starNoise = random(floor(uv * 160.0));
-                float starTwinkle = sin(u_time * 2.5 + random(floor(uv * 40.0)) * 10.0) * 0.5 + 0.5;
-                float stars = step(0.995, starNoise) * starTwinkle;
-                
-                vec3 vortexColor = mix(vec3(0.0), vec3(0.06, 0.07, 0.1), vortex);
-                vec3 starColor = vec3(0.75, 0.75, 0.85) * stars;
-                float blackHole = smoothstep(0.05, 0.22, r);
-                
-                vec3 finalColor = (vortexColor + starColor) * blackHole;
-                gl_FragColor = vec4(finalColor, 1.0);
+                vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+                vec2 p = (uv - 0.5) * vec2(u_resolution.x / u_resolution.y, 1.0);
+                float t = u_time * 0.15;
+                p *= 1.4;
+
+                // Domain Warping (Akışkan / Duman Girdap Hareketi)
+                vec2 q = vec2(fbm(p + t * 0.18), fbm(p + vec2(5.2, 1.3) - t * 0.15));
+                vec2 r = vec2(
+                    fbm(p + 3.2 * q + vec2(1.7, 9.2) + t * 0.12),
+                    fbm(p + 3.2 * q + vec2(8.3, 2.8) - t * 0.1)
+                );
+                float pattern = fbm(p + 3.6 * r);
+
+                // Monokrom Lüks Tonlar
+                vec3 colA = vec3(0.01, 0.01, 0.01);
+                vec3 colB = vec3(0.04, 0.04, 0.05);
+                vec3 colC = vec3(0.15, 0.15, 0.18);
+
+                vec3 color = mix(colA, colB, clamp(pattern * 1.2, 0.0, 1.0));
+                color = mix(color, colC, clamp(r.x * 0.8, 0.0, 1.0));
+
+                // Kenar Kararması (Vignette)
+                float d = length(p * 0.5);
+                float vignette = smoothstep(1.2, 0.1, d);
+                color *= mix(0.5, 1.0, vignette);
+
+                gl_FragColor = vec4(color, 1.0);
             }
         `;
 
