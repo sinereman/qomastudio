@@ -5,17 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QOMA | Digital Sanctuary</title>
     <style>
+        /* GENEL AYARLAR */
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
-            height: 100%;
             background-color: #000000;
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
-            overflow: hidden;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
+        /* 1. KATMAN: SABİT VORTEX ARKA PLANI */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -26,6 +28,7 @@
             pointer-events: none;
         }
 
+        /* 2. KATMAN: SABİT YILDIZLAR */
         .stars-container {
             position: fixed;
             top: 0;
@@ -44,122 +47,289 @@
             transition: opacity 1.5s ease-in-out;
         }
 
-        .ui-layer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+        /* 3. KATMAN: KAYDIRILABİLİR İÇERİK (SCROLL) */
+        .content-layer {
+            position: relative;
             z-index: 2;
-            pointer-events: none;
+            width: 100%;
+        }
+
+        /* --- BÖLÜM 1: GİRİŞ EKRANI --- */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .qoma-btn {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #232326 0%, #0c0c0e 70%, #000000 100%);
-            border: 1px solid rgba(183, 183, 194, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: none;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 0 50px rgba(183, 183, 194, 0.25);
-            transition: transform 0.2s ease, border-color 0.3s ease;
             outline: none;
-            pointer-events: auto;
-        }
-
-        .qoma-btn:hover {
-            border-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .qoma-btn:active {
-            transform: translate(-50%, -50%) scale(0.92);
-        }
-
-        .btn-bezel {
-            position: absolute;
-            top: 6px; left: 6px; right: 6px; bottom: 6px;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            pointer-events: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
         }
 
         .btn-text {
             color: #FFFFFF;
-            font-size: 1.8rem; 
-            font-weight: 500;
-            letter-spacing: 0.5rem;
-            margin-right: -0.5rem; 
+            font-size: 5.5rem;
+            font-weight: 300;
+            letter-spacing: 1.8rem;
+            margin-right: -1.8rem;
             text-transform: uppercase;
+            transition: opacity 0.3s ease, text-shadow 0.3s ease;
         }
 
-        .text-container {
-            position: absolute;
-            top: calc(50% + 120px); 
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
+        .qoma-btn:hover .btn-text {
+            opacity: 0.8;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
         .subtitle {
             font-size: 0.9rem;
-            font-weight: 300;
+            font-weight: 400;
             color: #8E8E96;
             letter-spacing: 0.5rem;
+            margin-top: 2rem;
             margin-right: -0.5rem;
             text-transform: uppercase;
             text-align: center;
         }
 
         .engineer-credit {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 500;
-            color: #666;
+            color: #444444;
             letter-spacing: 0.3rem;
             text-transform: uppercase;
-            margin-top: 1.2rem;
+            margin-top: 1.5rem;
             margin-right: -0.3rem;
             text-align: center;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            font-size: 0.6rem;
+            color: #555;
+            letter-spacing: 0.2rem;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* --- İÇERİK BÖLÜMLERİ (CAM TASARIM) --- */
+        .section {
+            padding: 8rem 10%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 60vh;
+        }
+
+        .section.reverse {
+            flex-direction: row-reverse;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 12, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 4rem;
+            width: 45%;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            letter-spacing: 0.3rem;
+            color: #ffffff;
+            margin-bottom: 2rem;
+            line-height: 1.4;
+        }
+
+        .section-text {
+            font-size: 1rem;
+            font-weight: 300;
+            color: #a1a1aa;
+            line-height: 1.8;
+            letter-spacing: 0.05rem;
+        }
+
+        .section-text strong {
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        /* Görsel Alanı Yer Tutucuları */
+        .image-container {
+            width: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            border-radius: 12px;
+            opacity: 0.8;
+            transition: opacity 0.5s ease;
+        }
+
+        .image-placeholder:hover {
+            opacity: 1;
+        }
+
+        /* --- BÖLÜM 4: TAM EKRAN FELSEFE --- */
+        .finale-section {
+            padding: 10rem 15%;
+            text-align: center;
+            background: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .finale-title {
+            font-size: 3rem;
+            font-weight: 200;
+            letter-spacing: 0.8rem;
+            margin-bottom: 3rem;
+            margin-right: -0.8rem;
+        }
+
+        .finale-text {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: #a1a1aa;
+            line-height: 2;
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .cta-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+            padding: 1rem 3rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            letter-spacing: 0.3rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Mobil Uyum (Responsive) */
+        @media (max-width: 900px) {
+            .section, .section.reverse {
+                flex-direction: column;
+                padding: 4rem 5%;
+            }
+            .glass-panel, .image-container {
+                width: 100%;
+            }
+            .image-container {
+                margin-top: 3rem;
+            }
+            .btn-text {
+                font-size: 3.5rem;
+            }
+            .finale-title {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- Arka Plan Vortex Shader -->
     <canvas id="glcanvas"></canvas>
+
+    <!-- Bağımsız Yıldızlar -->
     <div class="stars-container" id="starsContainer"></div>
 
-    <div class="ui-layer">
-        <button class="qoma-btn" onclick="location.reload()">
-            <div class="btn-bezel"></div>
-            <span class="btn-text">QOMA</span>
-        </button>
+    <!-- KAYDIRILABİLİR İÇERİK KATMANI -->
+    <div class="content-layer">
 
-        <div class="text-container">
+        <!-- BÖLÜM 1: GİRİŞ (HERO) -->
+        <div class="hero-section">
+            <button class="qoma-btn" onclick="window.scrollTo(0, window.innerHeight)">
+                <div class="btn-text">QOMA</div>
+            </button>
             <div class="subtitle">Digital Sanctuary</div>
             <div class="engineer-credit">engineered by B. B. KURSAT</div>
+            
+            <div class="scroll-indicator">scroll to explore</div>
         </div>
+
+        <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA -->
+        <div class="section">
+            <div class="glass-panel">
+                <h2 class="section-title">SESİN BİLİMİ.<br>ZİHNİN MİMARİSİ.</h2>
+                <p class="section-text">
+                    QOMA, sıradan bir işitsel deneyim değildir. Nörobilim, psikoakustik ve ileri düzey dijital sinyal işleme (DSP) teknolojilerinin kesişim noktasında, <strong>7 yılı aşkın derinlemesine bir araştırmanın</strong> eseridir.<br><br>
+                    İnsan beyni, dışarıdan gelen ritmik uyaranlara eşzamanlanma (entrainment) eğilimindedir. QOMA, her iki kulağa mikroskobik farklılıklarda gönderilen <em>binaural vuruşlar</em> ve kusursuz hesaplanmış <em>izokronik nabızlar</em> kullanarak beyin sapında üçüncü bir içsel ritim yaratır. Delta, Teta, Alfa ve düşük Beta dalgalarını hedefe yönelik olarak uyararak; kaosun ortasında saniyeler içinde derin bir uykuya, keskin bir odaklanmaya veya saf bir izolasyon durumuna geçişinizi tetikler.
+                </p>
+            </div>
+            <div class="image-container">
+                <!-- BURAYA BEYİN/NÖRON GÖRSELİNİ EKLEYEBİLİRSİN -->
+                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="image-placeholder" onerror="this.style.display='none'">
+            </div>
+        </div>
+
+        <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR -->
+        <div class="section reverse">
+            <div class="glass-panel">
+                <h2 class="section-title">SAF MATEMATİK.<br>SIFIR SES DOSYASI.</h2>
+                <p class="section-text">
+                    Gerçek bir sığınak, kendini tekrar etmez. QOMA'nın kalbinde, statik ve kaydedilmiş ses dosyalarına (MP3/WAV) yer yoktur.<br><br>
+                    Duyduğunuz her doku; cihazınızın işlemcisinde milisaniyeler içinde canlı olarak üretilen jeneratif bir mimaridir. Özel tasarım analog synthesizer algoritmaları, yavaşça nefes alan Moog-vari state-variable filtreler ve devasa yankı ağları kullanılarak anında sentezlenir. Doğu'nun mikrotonal koma sistemi (53-TET) ile Batı'nın harmonik yapısının eşsiz matematiği, kulaklıklarınızda hiç durmadan evrilen, organik ve daha önce hiç duyulmamış bir sonik uzay inşa eder. Sadece kod, matematik ve donanımın kusursuz uyumu.
+                </p>
+            </div>
+            <div class="image-container">
+                <!-- BURAYA SYNTHESIZER/MÜHENDİSLİK GÖRSELİNİ EKLEYEBİLİRSİN -->
+                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="image-placeholder" onerror="this.style.display='none'">
+            </div>
+        </div>
+
+        <!-- BÖLÜM 4: FELSEFE (FİNALE) -->
+        <div class="finale-section">
+            <h2 class="finale-title">KAOSTAN İZOLASYON.</h2>
+            <p class="finale-text">
+                Modern dünya, zihni durmaksızın bombardımana tutan bir aşırı uyaran denizidir. QOMA, bu kaotik frekansları bloke eden akustik bir kalkan görevi görür. Pembe, kahverengi, mavi ve mor gürültü profillerinin dinamikleriyle zihinsel yorgunluğu maskelerken, ruhun kendi doğal dinginliğine dönmesine olanak tanır.<br><br>
+                Burada dış dünya yok. Sadece siz, zihniniz ve sonsuz bir dijital boşluk var.
+            </p>
+            <button class="cta-btn">Deneyime Katılın</button>
+        </div>
+
     </div>
 
+    <!-- WEBGL VE YILDIZ MOTORU SCRİPTİ -->
     <script>
+        // --- 1. DUMAN VE VORTEX BİRLEŞİK SHADER ---
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
-        // Yüksek Çözünürlük (Retina) Kalite Ölçeklemesi
         function resize() {
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            canvas.style.width = window.innerWidth + 'px';
-            canvas.style.height = window.innerHeight + 'px';
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
             gl.viewport(0, 0, canvas.width, canvas.height);
         }
         window.addEventListener('resize', resize);
@@ -205,11 +375,6 @@
                 return v;
             }
 
-            // Renk Bantlanmasını (Banding) Engelleyen Dither Fonksiyonu
-            float ditherNoise(vec2 co) {
-                return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
-            }
-
             void main() {
                 vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
                 float t = uTime * 0.14;
@@ -241,9 +406,6 @@
 
                 float vignette = smoothstep(1.1, 0.15, length(p));
                 vec3 finalColor = (smokeColor + vortexColor) * vignette;
-
-                // Dither uygulayarak geçişleri cam gibi pürüzsüz hale getiriyoruz
-                finalColor += (ditherNoise(gl_FragCoord.xy + uTime) - 0.5) * 0.007;
 
                 gl_FragColor = vec4(finalColor, 1.0);
             }
@@ -278,7 +440,6 @@
         function render() {
             let elapsed = (Date.now() - startTime) / 1000;
             gl.uniform1f(uTimeLoc, elapsed);
-            // Düzeltilmiş Çözünürlüğü Shader'a Gönderiyoruz
             gl.uniform2f(uResLoc, canvas.width, canvas.height);
 
             gl.clearColor(0, 0, 0, 0);
@@ -288,22 +449,14 @@
         }
         render();
 
-        // --- Bağımsız Yıldızlar ---
+        // --- 2. BAĞIMSIZ TİTREŞEN YILDIZLAR ---
         const container = document.getElementById('starsContainer');
         const starCount = 80;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const exclusionRadius = 130; 
 
         for (let i = 0; i < starCount; i++) {
-            let x, y;
-            let attempts = 0;
-            do {
-                x = Math.random() * window.innerWidth;
-                y = Math.random() * window.innerHeight;
-                attempts++;
-            } while (Math.hypot(x - centerX, y - centerY) < exclusionRadius && attempts < 20);
-
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            
             const star = document.createElement('div');
             const size = 1.2 + Math.random() * 2.2;
             const baseOpacity = 0.15 + Math.random() * 0.35;
