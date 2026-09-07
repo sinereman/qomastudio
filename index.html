@@ -14,9 +14,6 @@
             color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         /* 1. Katman: Duman ve Vortex Shader'ı */
@@ -50,35 +47,43 @@
         }
 
         /* 3. Katman: Arayüz (UI) */
-        .center-container {
-            position: relative;
+        .ui-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            pointer-events: none; /* Tıklamaların alt katmanlara geçmesini önler, sadece buton tıklanabilir olur */
         }
 
-        /* Dairesel Merkez Buton */
+        /* Dairesel Merkez Buton - Tam Merkeze Mıhlanmış ve Büyütülmüş */
         .qoma-btn {
-            width: 140px;
-            height: 140px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             background: radial-gradient(circle, #232326 0%, #0c0c0e 70%, #000000 100%);
             border: 1px solid rgba(183, 183, 194, 0.7);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            position: relative;
-            box-shadow: 0 0 45px rgba(183, 183, 194, 0.3);
-            transition: transform 0.2s ease;
+            box-shadow: 0 0 50px rgba(183, 183, 194, 0.25);
+            transition: transform 0.2s ease, border-color 0.3s ease;
             outline: none;
+            pointer-events: auto; /* Sadece buton tıklanabilir */
+        }
+
+        .qoma-btn:hover {
+            border-color: rgba(255, 255, 255, 0.9);
         }
 
         .qoma-btn:active {
-            transform: scale(0.92);
+            transform: translate(-50%, -50%) scale(0.92);
         }
 
         /* Buton İç Bezel */
@@ -90,37 +95,47 @@
             pointer-events: none;
         }
 
+        /* Büyütülmüş QOMA Yazısı */
         .btn-text {
             color: #FFFFFF;
-            font-size: 1.4rem; 
-            font-weight: 400;
-            letter-spacing: 0.4rem;
-            margin-right: -0.4rem;
+            font-size: 1.8rem; 
+            font-weight: 500;
+            letter-spacing: 0.5rem;
+            margin-right: -0.5rem; /* Optik ortalama */
             text-transform: uppercase;
+        }
+
+        /* Alt Yazılar İçin Ayrı Taşıyıcı */
+        .text-container {
+            position: absolute;
+            top: calc(50% + 120px); /* Butonun hemen altına yerleşir */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
         }
 
         .subtitle {
-            font-size: 0.8rem;
+            font-size: 0.9rem;
             font-weight: 300;
             color: #8E8E96;
             letter-spacing: 0.5rem;
-            margin-top: 2.5rem;
             margin-right: -0.5rem;
             text-transform: uppercase;
             text-align: center;
-            pointer-events: none;
         }
 
         .engineer-credit {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 500;
-            color: #444444;
+            color: #666;
             letter-spacing: 0.3rem;
             text-transform: uppercase;
-            margin-top: 1.5rem;
+            margin-top: 1.2rem;
             margin-right: -0.3rem;
             text-align: center;
-            pointer-events: none;
         }
     </style>
 </head>
@@ -133,15 +148,18 @@
     <div class="stars-container" id="starsContainer"></div>
 
     <!-- UI -->
-    <div class="center-container">
+    <div class="ui-layer">
+        <!-- Tam Merkezdeki Buton -->
         <button class="qoma-btn" onclick="location.reload()">
             <div class="btn-bezel"></div>
-            <!-- Çentik kaldırıldı -->
             <span class="btn-text">QOMA</span>
         </button>
 
-        <div class="subtitle">Digital Sanctuary</div>
-        <div class="engineer-credit">engineered by B. B. KURSAT</div>
+        <!-- Alt Yazılar -->
+        <div class="text-container">
+            <div class="subtitle">Digital Sanctuary</div>
+            <div class="engineer-credit">engineered by B. B. KURSAT</div>
+        </div>
     </div>
 
     <script>
@@ -276,7 +294,7 @@
         const starCount = 80;
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const exclusionRadius = 120; 
+        const exclusionRadius = 130; 
 
         for (let i = 0; i < starCount; i++) {
             let x, y;
