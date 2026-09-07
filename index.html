@@ -59,39 +59,65 @@
             justify-content: center;
         }
 
-        /* Dairesi/Çerçevesi Olmayan Sadece Yazı Butonu */
+        /* Dairesel Merkez Buton (App.js Stili) */
         .qoma-btn {
-            background: none;
-            border: none;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #232326 0%, #0c0c0e 70%, #000000 100%);
+            border: 1px solid rgba(183, 183, 194, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            position: relative;
+            box-shadow: 0 0 45px rgba(183, 183, 194, 0.3);
+            transition: transform 0.2s ease;
             outline: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
+        }
+
+        .qoma-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Buton İç Bezel ve Işıma */
+        .btn-bezel {
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            pointer-events: none;
+        }
+
+        .btn-notch {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 10px;
+            border-radius: 1px;
+            background-color: #B7B7C2;
+            opacity: 0.55;
+            pointer-events: none;
         }
 
         .btn-text {
             color: #FFFFFF;
-            font-size: 5.5rem; /* Görseldeki gibi devasa ve ince */
-            font-weight: 300;
-            letter-spacing: 1.8rem;
-            /* Harf aralığından (letter-spacing) kaynaklı sağa kaymayı önlemek için */
-            margin-right: -1.8rem; 
+            font-size: 1.4rem; 
+            font-weight: 400;
+            letter-spacing: 0.4rem;
+            margin-right: -0.4rem; /* Harf aralığından (letter-spacing) kaynaklı sağa kaymayı önlemek için */
             text-transform: uppercase;
-            transition: opacity 0.3s ease, text-shadow 0.3s ease;
-        }
-
-        .qoma-btn:hover .btn-text {
-            opacity: 0.8;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
         .subtitle {
-            font-size: 0.9rem;
-            font-weight: 400;
+            font-size: 0.8rem;
+            font-weight: 300;
             color: #8E8E96;
             letter-spacing: 0.5rem;
-            margin-top: 2rem;
+            margin-top: 2.5rem;
             margin-right: -0.5rem;
             text-transform: uppercase;
             text-align: center;
@@ -119,10 +145,12 @@
     <!-- Yıldızlar -->
     <div class="stars-container" id="starsContainer"></div>
 
-    <!-- UI: QOMA -->
+    <!-- UI -->
     <div class="center-container">
         <button class="qoma-btn" onclick="location.reload()">
-            <div class="btn-text">QOMA</div>
+            <div class="btn-bezel"></div>
+            <div class="btn-notch"></div>
+            <span class="btn-text">QOMA</span>
         </button>
 
         <div class="subtitle">Digital Sanctuary</div>
@@ -188,7 +216,7 @@
                 vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
                 float t = uTime * 0.14;
 
-                // KATMAN 1: Duman / Akışkan Arka Plan
+                // KATMAN 1: Duman / Akışkan Arka Plan (Kontrast Artırıldı)
                 vec2 smokeP = p * 1.5;
                 vec2 q = vec2(fbm(smokeP + t * 0.18), fbm(smokeP + vec2(5.2, 1.3) - t * 0.15));
                 vec2 r = vec2(
@@ -197,11 +225,11 @@
                 );
                 float pattern = fbm(smokeP + 3.6 * r);
                 
-                vec3 colA = vec3(0.005, 0.005, 0.005);
-                vec3 colB = vec3(0.02, 0.02, 0.02);
-                vec3 colC = vec3(0.05, 0.05, 0.06);
-                vec3 smokeColor = mix(colA, colB, clamp(pattern * 1.2, 0.0, 1.0));
-                smokeColor = mix(smokeColor, colC, clamp(r.x * 0.8, 0.0, 1.0));
+                vec3 colA = vec3(0.01, 0.01, 0.01);
+                vec3 colB = vec3(0.03, 0.03, 0.03);
+                vec3 colC = vec3(0.08, 0.08, 0.1);
+                vec3 smokeColor = mix(colA, colB, clamp(pattern * 1.5, 0.0, 1.0));
+                smokeColor = mix(smokeColor, colC, clamp(r.x * 1.2, 0.0, 1.0));
 
                 // KATMAN 2: Vortex Çizgileri
                 float wave1 = sin(length(p) * 8.0 - t * 1.5 + atan(p.y, p.x + 0.001) * 2.0);
@@ -266,7 +294,7 @@
         const starCount = 80;
         const centerX = window.innerWidth / 2;
         const centerY = window.innerHeight / 2;
-        const exclusionRadius = 160; // QOMA yazısının arkasında yıldız olmasın diye boşluk
+        const exclusionRadius = 120; // Butonun arkasında yıldız olmasın diye boşluk
 
         for (let i = 0; i < starCount; i++) {
             let x, y;
