@@ -19,6 +19,7 @@
             align-items: center;
         }
 
+        /* Arka Plan WebGL Vortex ve Parçacıklar */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -28,78 +29,129 @@
             z-index: 0;
         }
 
-        .ui-frame {
+        /* Merkez Konteyner */
+        .center-container {
             position: relative;
-            z-index: 1;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background-color: rgba(3, 3, 3, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 16px;
-            padding: 4.5rem 6rem;
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95);
         }
 
+        /* Ekran Görüntüsündeki Orijinal Dönen Sarmal (Vortex Lines) */
+        .vortex-container {
+            position: absolute;
+            width: 650px;
+            height: 650px;
+            animation: spin 35s linear infinite;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Orijinal Dairesel Buton Yapısı */
         .qoma-btn {
-            background: rgba(15, 15, 15, 0.9);
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #18181b 0%, #09090b 70%, #000000 100%);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: #ffffff;
-            padding: 1.5rem 3.5rem;
-            border-radius: 100px;
-            font-size: 3.5rem;
-            font-weight: 200;
-            letter-spacing: 1.5rem;
-            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
-            padding-right: 2rem; 
-            text-indent: 1.5rem; 
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.9), inset 0 0 25px rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            outline: none;
         }
 
         .qoma-btn:hover {
-            background: rgba(30, 30, 30, 1);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 60px rgba(255, 255, 255, 0.15), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 0 70px rgba(255, 255, 255, 0.1), inset 0 0 35px rgba(255, 255, 255, 0.1);
+            transform: scale(1.03);
         }
 
-        .subtitle {
-            font-size: 0.8rem;
-            font-weight: 300;
-            color: #888;
-            letter-spacing: 0.5rem;
-            margin-top: 2rem;
-            text-transform: uppercase;
+        /* Buton İçindeki Çerçeve Çizgisi */
+        .qoma-btn::before {
+            content: '';
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             pointer-events: none;
-            margin-right: -0.5rem;
+        }
+
+        .btn-text {
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.5rem;
+            text-transform: lowercase;
+            margin-left: 0.5rem;
+            color: #f4f4f5;
+        }
+
+        /* Alt Yazılar ve Mühür */
+        .subtitle {
+            font-size: 0.75rem;
+            font-weight: 300;
+            color: #71717a;
+            letter-spacing: 0.4rem;
+            margin-top: 2.5rem;
+            text-transform: uppercase;
+            text-align: center;
+            pointer-events: none;
         }
 
         .engineer-credit {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 500;
-            color: #666;
+            color: #52525b;
             letter-spacing: 0.25rem;
             text-transform: uppercase;
-            margin-top: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
             pointer-events: none;
         }
     </style>
 </head>
 <body>
 
+    <!-- WebGL Arka Plan ve Yıldız Matrisi -->
     <canvas id="glcanvas"></canvas>
 
-    <div class="ui-frame">
-        <button class="qoma-btn">QOMA</button>
+    <!-- Merkez Yapı -->
+    <div class="center-container">
+        
+        <!-- Orijinal Dönen Sarmal (Vortex) Çizgileri -->
+        <div class="vortex-container">
+            <svg width="650" height="650" viewBox="-100 -100 200 200">
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.8" transform="rotate(0)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(90)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.8" transform="rotate(180)" />
+                <path d="M 0,-95 C -62,-38 62,38 0,95" stroke="#ffffff" stroke-width="1.2" fill="none" opacity="0.5" transform="rotate(270)" />
+            </svg>
+        </div>
+
+        <!-- Merkez Dairesel Buton -->
+        <button class="qoma-btn">
+            <span class="btn-text">qoma</span>
+        </button>
+
+        <!-- Alt Bilgiler -->
         <div class="subtitle">Digital Sanctuary</div>
         <div class="engineer-credit">engineered by B. B. KURSAT</div>
+
     </div>
 
+    <!-- WebGL Yıldız Efekti -->
     <script>
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
@@ -119,68 +171,23 @@
             }
         `;
 
-        // Uygulamanın DNA'sındaki Gerçek Akışkan Duman / Domain Warping Shader'ı
         const fsSource = `
-            precision highp float;
+            precision mediump float;
             uniform vec2 u_resolution;
             uniform float u_time;
 
-            float hash21(vec2 p) {
-                p = fract(p * vec2(123.34, 456.21));
-                p += dot(p, p + 45.32);
-                return fract(p.x * p.y);
+            float random(vec2 st) {
+                return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
             }
 
-            float valueNoise(vec2 p) {
-                vec2 i = floor(p);
-                vec2 f = fract(p);
-                float a = hash21(i);
-                float b = hash21(i + vec2(1.0, 0.0));
-                float c = hash21(i + vec2(0.0, 1.0));
-                float d = hash21(i + vec2(1.0, 1.0));
-                vec2 u = f * f * (3.0 - 2.0 * f);
-                return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
-            }
-
-            float fbm(vec2 p) {
-                float v = 0.0;
-                float amp = 0.5;
-                for (int i = 0; i < 4; i++) {
-                    v += amp * valueNoise(p);
-                    p *= 2.03;
-                    amp *= 0.5;
-                }
-                return v;
-            }
-
-            void main() {
-                vec2 uv = gl_FragCoord.xy / u_resolution.xy;
-                vec2 p = (uv - 0.5) * vec2(u_resolution.x / u_resolution.y, 1.0);
-                float t = u_time * 0.15;
-                p *= 1.4;
-
-                // Domain Warping (Akışkan / Duman Girdap Hareketi)
-                vec2 q = vec2(fbm(p + t * 0.18), fbm(p + vec2(5.2, 1.3) - t * 0.15));
-                vec2 r = vec2(
-                    fbm(p + 3.2 * q + vec2(1.7, 9.2) + t * 0.12),
-                    fbm(p + 3.2 * q + vec2(8.3, 2.8) - t * 0.1)
-                );
-                float pattern = fbm(p + 3.6 * r);
-
-                // Monokrom Lüks Tonlar
-                vec3 colA = vec3(0.01, 0.01, 0.01);
-                vec3 colB = vec3(0.04, 0.04, 0.05);
-                vec3 colC = vec3(0.15, 0.15, 0.18);
-
-                vec3 color = mix(colA, colB, clamp(pattern * 1.2, 0.0, 1.0));
-                color = mix(color, colC, clamp(r.x * 0.8, 0.0, 1.0));
-
-                // Kenar Kararması (Vignette)
-                float d = length(p * 0.5);
-                float vignette = smoothstep(1.2, 0.1, d);
-                color *= mix(0.5, 1.0, vignette);
-
-                gl_FragColor = vec4(color, 1.0);
+        void main() {
+                vec2 uv = (gl_FragCoord.xy - 0.5 * u_resolution.xy) / min(u_resolution.y, u_resolution.x);
+                float starNoise = random(floor(uv * 180.0));
+                float starTwinkle = sin(u_time * 2.0 + random(floor(uv * 50.0)) * 10.0) * 0.5 + 0.5;
+                float stars = step(0.994, starNoise) * starTwinkle;
+                
+                vec3 starColor = vec3(0.7, 0.7, 0.8) * stars;
+                gl_FragColor = vec4(starColor, 1.0);
             }
         `;
 
