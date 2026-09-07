@@ -54,17 +54,19 @@
             width: 100%;
         }
 
-        /* --- BÖLÜM 1: GİRİŞ EKRANI --- */
+        /* --- BÖLÜM 1: GİRİŞ EKRANI (HERO) --- */
         .hero-section {
             height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
             position: relative;
         }
 
+        /* Dairesi/Çerçevesi Olmayan Sadece Yazı Butonu - TAM MERKEZDE */
         .qoma-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: none;
             border: none;
             cursor: pointer;
@@ -79,7 +81,7 @@
             font-size: 5.5rem;
             font-weight: 300;
             letter-spacing: 1.8rem;
-            margin-right: -1.8rem;
+            margin-right: -1.8rem; 
             text-transform: uppercase;
             transition: opacity 0.3s ease, text-shadow 0.3s ease;
         }
@@ -89,12 +91,24 @@
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
+        /* Alt Yazılar İçin Ayrı Taşıyıcı */
+        .hero-text-container {
+            position: absolute;
+            top: calc(50% + 120px);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            pointer-events: none;
+        }
+
         .subtitle {
             font-size: 0.9rem;
             font-weight: 400;
             color: #8E8E96;
             letter-spacing: 0.5rem;
-            margin-top: 2rem;
             margin-right: -0.5rem;
             text-transform: uppercase;
             text-align: center;
@@ -114,6 +128,8 @@
         .scroll-indicator {
             position: absolute;
             bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 0.6rem;
             color: #555;
             letter-spacing: 0.2rem;
@@ -172,7 +188,7 @@
             font-weight: 500;
         }
 
-        /* Görsel Alanı Yer Tutucuları */
+        /* Görsel Alanı */
         .image-container {
             width: 45%;
             display: flex;
@@ -180,17 +196,19 @@
             align-items: center;
         }
 
-        .image-placeholder {
+        .content-image {
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             height: auto;
             border-radius: 12px;
-            opacity: 0.8;
-            transition: opacity 0.5s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            opacity: 0.85;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        .image-placeholder:hover {
+        .content-image:hover {
             opacity: 1;
+            transform: scale(1.02);
         }
 
         /* --- BÖLÜM 4: TAM EKRAN FELSEFE --- */
@@ -273,8 +291,11 @@
             <button class="qoma-btn" onclick="window.scrollTo(0, window.innerHeight)">
                 <div class="btn-text">QOMA</div>
             </button>
-            <div class="subtitle">Digital Sanctuary</div>
-            <div class="engineer-credit">engineered by B. B. KURSAT</div>
+            
+            <div class="hero-text-container">
+                <div class="subtitle">Digital Sanctuary</div>
+                <div class="engineer-credit">engineered by B. B. KURSAT</div>
+            </div>
             
             <div class="scroll-indicator">scroll to explore</div>
         </div>
@@ -289,8 +310,7 @@
                 </p>
             </div>
             <div class="image-container">
-                <!-- BURAYA BEYİN/NÖRON GÖRSELİNİ EKLEYEBİLİRSİN -->
-                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="image-placeholder" onerror="this.style.display='none'">
+                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="content-image">
             </div>
         </div>
 
@@ -304,8 +324,7 @@
                 </p>
             </div>
             <div class="image-container">
-                <!-- BURAYA SYNTHESIZER/MÜHENDİSLİK GÖRSELİNİ EKLEYEBİLİRSİN -->
-                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="image-placeholder" onerror="this.style.display='none'">
+                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="content-image">
             </div>
         </div>
 
@@ -323,7 +342,6 @@
 
     <!-- WEBGL VE YILDIZ MOTORU SCRİPTİ -->
     <script>
-        // --- 1. DUMAN VE VORTEX BİRLEŞİK SHADER ---
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
@@ -452,11 +470,19 @@
         // --- 2. BAĞIMSIZ TİTREŞEN YILDIZLAR ---
         const container = document.getElementById('starsContainer');
         const starCount = 80;
+        const centerX = window.innerWidth / 2;
+        const centerY = window.innerHeight / 2;
+        const exclusionRadius = 160; 
 
         for (let i = 0; i < starCount; i++) {
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * window.innerHeight;
-            
+            let x, y;
+            let attempts = 0;
+            do {
+                x = Math.random() * window.innerWidth;
+                y = Math.random() * window.innerHeight;
+                attempts++;
+            } while (Math.hypot(x - centerX, y - centerY) < exclusionRadius && attempts < 20);
+
             const star = document.createElement('div');
             const size = 1.2 + Math.random() * 2.2;
             const baseOpacity = 0.15 + Math.random() * 0.35;
