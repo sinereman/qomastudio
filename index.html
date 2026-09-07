@@ -16,7 +16,6 @@
             overflow: hidden;
         }
 
-        /* 1. Katman: Duman ve Vortex Shader'ı */
         #glcanvas {
             position: fixed;
             top: 0;
@@ -27,7 +26,6 @@
             pointer-events: none;
         }
 
-        /* 2. Katman: Bağımsız Yıldızlar */
         .stars-container {
             position: fixed;
             top: 0;
@@ -46,7 +44,6 @@
             transition: opacity 1.5s ease-in-out;
         }
 
-        /* 3. Katman: Arayüz (UI) */
         .ui-layer {
             position: fixed;
             top: 0;
@@ -54,10 +51,9 @@
             width: 100vw;
             height: 100vh;
             z-index: 2;
-            pointer-events: none; /* Tıklamaların alt katmanlara geçmesini önler, sadece buton tıklanabilir olur */
+            pointer-events: none;
         }
 
-        /* Dairesel Merkez Buton - Tam Merkeze Mıhlanmış ve Büyütülmüş */
         .qoma-btn {
             position: absolute;
             top: 50%;
@@ -75,7 +71,7 @@
             box-shadow: 0 0 50px rgba(183, 183, 194, 0.25);
             transition: transform 0.2s ease, border-color 0.3s ease;
             outline: none;
-            pointer-events: auto; /* Sadece buton tıklanabilir */
+            pointer-events: auto;
         }
 
         .qoma-btn:hover {
@@ -86,7 +82,6 @@
             transform: translate(-50%, -50%) scale(0.92);
         }
 
-        /* Buton İç Bezel */
         .btn-bezel {
             position: absolute;
             top: 6px; left: 6px; right: 6px; bottom: 6px;
@@ -95,20 +90,18 @@
             pointer-events: none;
         }
 
-        /* Büyütülmüş QOMA Yazısı */
         .btn-text {
             color: #FFFFFF;
             font-size: 1.8rem; 
             font-weight: 500;
             letter-spacing: 0.5rem;
-            margin-right: -0.5rem; /* Optik ortalama */
+            margin-right: -0.5rem; 
             text-transform: uppercase;
         }
 
-        /* Alt Yazılar İçin Ayrı Taşıyıcı */
         .text-container {
             position: absolute;
-            top: calc(50% + 120px); /* Butonun hemen altına yerleşir */
+            top: calc(50% + 120px); 
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -141,21 +134,15 @@
 </head>
 <body>
 
-    <!-- Duman ve Vortex -->
     <canvas id="glcanvas"></canvas>
-
-    <!-- Yıldızlar -->
     <div class="stars-container" id="starsContainer"></div>
 
-    <!-- UI -->
     <div class="ui-layer">
-        <!-- Tam Merkezdeki Buton -->
         <button class="qoma-btn" onclick="location.reload()">
             <div class="btn-bezel"></div>
             <span class="btn-text">QOMA</span>
         </button>
 
-        <!-- Alt Yazılar -->
         <div class="text-container">
             <div class="subtitle">Digital Sanctuary</div>
             <div class="engineer-credit">engineered by B. B. KURSAT</div>
@@ -163,13 +150,16 @@
     </div>
 
     <script>
-        // --- 1. DUMAN VE VORTEX BİRLEŞİK SHADER ---
         const canvas = document.getElementById('glcanvas');
         const gl = canvas.getContext('webgl');
 
+        // Yüksek Çözünürlük (Retina) Kalite Ölçeklemesi
         function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = window.innerWidth * dpr;
+            canvas.height = window.innerHeight * dpr;
+            canvas.style.width = window.innerWidth + 'px';
+            canvas.style.height = window.innerHeight + 'px';
             gl.viewport(0, 0, canvas.width, canvas.height);
         }
         window.addEventListener('resize', resize);
@@ -215,6 +205,11 @@
                 return v;
             }
 
+            // Renk Bantlanmasını (Banding) Engelleyen Dither Fonksiyonu
+            float ditherNoise(vec2 co) {
+                return fract(sin(dot(co, vec2(12.9898, 78.233))) * 43758.5453);
+            }
+
             void main() {
                 vec2 p = (gl_FragCoord.xy - 0.5 * uResolution.xy) / min(uResolution.x, uResolution.y);
                 float t = uTime * 0.14;
@@ -246,6 +241,9 @@
 
                 float vignette = smoothstep(1.1, 0.15, length(p));
                 vec3 finalColor = (smokeColor + vortexColor) * vignette;
+
+                // Dither uygulayarak geçişleri cam gibi pürüzsüz hale getiriyoruz
+                finalColor += (ditherNoise(gl_FragCoord.xy + uTime) - 0.5) * 0.007;
 
                 gl_FragColor = vec4(finalColor, 1.0);
             }
@@ -280,6 +278,7 @@
         function render() {
             let elapsed = (Date.now() - startTime) / 1000;
             gl.uniform1f(uTimeLoc, elapsed);
+            // Düzeltilmiş Çözünürlüğü Shader'a Gönderiyoruz
             gl.uniform2f(uResLoc, canvas.width, canvas.height);
 
             gl.clearColor(0, 0, 0, 0);
@@ -289,7 +288,7 @@
         }
         render();
 
-        // --- 2. BAĞIMSIZ TİTREŞEN YILDIZLAR ---
+        // --- Bağımsız Yıldızlar ---
         const container = document.getElementById('starsContainer');
         const starCount = 80;
         const centerX = window.innerWidth / 2;
