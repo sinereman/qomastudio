@@ -17,6 +17,34 @@
             scroll-behavior: smooth;
         }
 
+        /* DİL SEÇİCİ (SAĞ ÜST) */
+        .lang-switch {
+            position: fixed;
+            top: 30px;
+            right: 40px;
+            z-index: 100;
+            font-size: 0.75rem;
+            letter-spacing: 0.2rem;
+            color: #8E8E96;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        .lang-switch span {
+            transition: color 0.3s ease;
+        }
+        .lang-switch span:hover {
+            color: #ffffff;
+        }
+        .lang-switch span.active {
+            color: #ffffff;
+            font-weight: 500;
+        }
+        .lang-switch .divider {
+            margin: 0 8px;
+            color: #444;
+            pointer-events: none;
+        }
+
         /* 1. KATMAN: SABİT VORTEX ARKA PLANI */
         #glcanvas {
             position: fixed;
@@ -61,7 +89,6 @@
             position: relative;
         }
 
-        /* Dairesi/Çerçevesi Olmayan Sadece Yazı Butonu - TAM MERKEZDE */
         .qoma-btn {
             position: absolute;
             top: 50%;
@@ -91,7 +118,6 @@
             text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
         }
 
-        /* Alt Yazılar İçin Ayrı Taşıyıcı */
         .hero-text-container {
             position: absolute;
             top: calc(50% + 120px);
@@ -254,7 +280,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        /* Mobil Uyum (Responsive) */
         @media (max-width: 900px) {
             .section, .section.reverse {
                 flex-direction: column;
@@ -277,6 +302,13 @@
 </head>
 <body>
 
+    <!-- DİL SEÇİCİ -->
+    <div class="lang-switch">
+        <span id="btn-en" class="active" onclick="setLang('en')">ENG</span>
+        <span class="divider">|</span>
+        <span id="btn-jp" onclick="setLang('jp')">JPN</span>
+    </div>
+
     <!-- Arka Plan Vortex Shader -->
     <canvas id="glcanvas"></canvas>
 
@@ -293,52 +325,100 @@
             </button>
             
             <div class="hero-text-container">
-                <div class="subtitle">Digital Sanctuary</div>
+                <div class="subtitle" id="t-subtitle">Digital Sanctuary</div>
                 <div class="engineer-credit">engineered by B. B. KURSAT</div>
             </div>
             
-            <div class="scroll-indicator">scroll to explore</div>
+            <div class="scroll-indicator" id="t-scroll">scroll to explore</div>
         </div>
 
         <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA -->
         <div class="section">
             <div class="glass-panel">
-                <h2 class="section-title">SESİN BİLİMİ.<br>ZİHNİN MİMARİSİ.</h2>
-                <p class="section-text">
-                    QOMA, sıradan bir işitsel deneyim değildir. Nörobilim, psikoakustik ve ileri düzey dijital sinyal işleme (DSP) teknolojilerinin kesişim noktasında, <strong>7 yılı aşkın derinlemesine bir araştırmanın</strong> eseridir.<br><br>
-                    İnsan beyni, dışarıdan gelen ritmik uyaranlara eşzamanlanma (entrainment) eğilimindedir. QOMA, her iki kulağa mikroskobik farklılıklarda gönderilen <em>binaural vuruşlar</em> ve kusursuz hesaplanmış <em>izokronik nabızlar</em> kullanarak beyin sapında üçüncü bir içsel ritim yaratır. Delta, Teta, Alfa ve düşük Beta dalgalarını hedefe yönelik olarak uyararak; kaosun ortasında saniyeler içinde derin bir uykuya, keskin bir odaklanmaya veya saf bir izolasyon durumuna geçişinizi tetikler.
+                <h2 class="section-title" id="t-sec1-title">THE SCIENCE OF SOUND.<br>THE ARCHITECTURE OF MIND.</h2>
+                <p class="section-text" id="t-sec1-text">
+                    QOMA is not an ordinary auditory experience. At the intersection of neuroscience, psychoacoustics, and advanced digital signal processing (DSP) technologies, it is the result of <strong>over 7 years of in-depth research</strong>.<br><br>
+                    The human brain has a tendency to entrain to external rhythmic stimuli. QOMA creates a third internal rhythm in the brainstem using <em>binaural beats</em> sent to each ear with microscopic differences and perfectly calculated <em>isochronic pulses</em>. By actively stimulating Delta, Theta, Alpha, and low Beta waves; it triggers your transition into deep sleep, sharp focus, or a state of pure isolation within seconds amidst chaos.
                 </p>
             </div>
             <div class="image-container">
-                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="content-image">
+                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="content-image" onerror="this.style.display='none'">
             </div>
         </div>
 
         <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR -->
         <div class="section reverse">
             <div class="glass-panel">
-                <h2 class="section-title">SAF MATEMATİK.<br>SIFIR SES DOSYASI.</h2>
-                <p class="section-text">
-                    Gerçek bir sığınak, kendini tekrar etmez. QOMA'nın kalbinde, statik ve kaydedilmiş ses dosyalarına (MP3/WAV) yer yoktur.<br><br>
-                    Duyduğunuz her doku; cihazınızın işlemcisinde milisaniyeler içinde canlı olarak üretilen jeneratif bir mimaridir. Özel tasarım analog synthesizer algoritmaları, yavaşça nefes alan Moog-vari state-variable filtreler ve devasa yankı ağları kullanılarak anında sentezlenir. Doğu'nun mikrotonal koma sistemi (53-TET) ile Batı'nın harmonik yapısının eşsiz matematiği, kulaklıklarınızda hiç durmadan evrilen, organik ve daha önce hiç duyulmamış bir sonik uzay inşa eder. Sadece kod, matematik ve donanımın kusursuz uyumu.
+                <h2 class="section-title" id="t-sec2-title">PURE MATHEMATICS.<br>ZERO AUDIO FILES.</h2>
+                <p class="section-text" id="t-sec2-text">
+                    A true sanctuary never repeats itself. At the heart of QOMA, there is no place for static and recorded audio files (MP3/WAV).<br><br>
+                    Every texture you hear is a generative architecture produced live in milliseconds on your device's processor. It is synthesized instantly using custom-designed analog synthesizer algorithms, slowly breathing Moog-like state-variable filters, and massive reverb networks. The unique mathematics of the East's microtonal comma system (53-TET) and the West's harmonic structure build an organically evolving, never-before-heard sonic space in your headphones. Pure harmony of code, mathematics, and hardware.
                 </p>
             </div>
             <div class="image-container">
-                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="content-image">
+                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="content-image" onerror="this.style.display='none'">
             </div>
         </div>
 
         <!-- BÖLÜM 4: FELSEFE (FİNALE) -->
         <div class="finale-section">
-            <h2 class="finale-title">KAOSTAN İZOLASYON.</h2>
-            <p class="finale-text">
-                Modern dünya, zihni durmaksızın bombardımana tutan bir aşırı uyaran denizidir. QOMA, bu kaotik frekansları bloke eden akustik bir kalkan görevi görür. Pembe, kahverengi, mavi ve mor gürültü profillerinin dinamikleriyle zihinsel yorgunluğu maskelerken, ruhun kendi doğal dinginliğine dönmesine olanak tanır.<br><br>
-                Burada dış dünya yok. Sadece siz, zihniniz ve sonsuz bir dijital boşluk var.
+            <h2 class="finale-title" id="t-sec3-title">ISOLATION FROM CHAOS.</h2>
+            <p class="finale-text" id="t-sec3-text">
+                The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>
+                There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
-            <button class="cta-btn">Deneyime Katılın</button>
+            <button class="cta-btn" id="t-cta">Join the Experience</button>
         </div>
 
     </div>
+
+    <!-- DİL DEĞİŞTİRME (i18n) SCRIPT -->
+    <script>
+        const i18n = {
+            en: {
+                subtitle: "Digital Sanctuary",
+                scroll: "scroll to explore",
+                sec1Title: "THE SCIENCE OF SOUND.<br>THE ARCHITECTURE OF MIND.",
+                sec1Text: "QOMA is not an ordinary auditory experience. At the intersection of neuroscience, psychoacoustics, and advanced digital signal processing (DSP) technologies, it is the result of <strong>over 7 years of in-depth research</strong>.<br><br>The human brain has a tendency to entrain to external rhythmic stimuli. QOMA creates a third internal rhythm in the brainstem using <em>binaural beats</em> sent to each ear with microscopic differences and perfectly calculated <em>isochronic pulses</em>. By actively stimulating Delta, Theta, Alpha, and low Beta waves; it triggers your transition into deep sleep, sharp focus, or a state of pure isolation within seconds amidst chaos.",
+                sec2Title: "PURE MATHEMATICS.<br>ZERO AUDIO FILES.",
+                sec2Text: "A true sanctuary never repeats itself. At the heart of QOMA, there is no place for static and recorded audio files (MP3/WAV).<br><br>Every texture you hear is a generative architecture produced live in milliseconds on your device's processor. It is synthesized instantly using custom-designed analog synthesizer algorithms, slowly breathing Moog-like state-variable filters, and massive reverb networks. The unique mathematics of the East's microtonal comma system (53-TET) and the West's harmonic structure build an organically evolving, never-before-heard sonic space in your headphones. Pure harmony of code, mathematics, and hardware.",
+                sec3Title: "ISOLATION FROM CHAOS.",
+                sec3Text: "The modern world is a sea of overstimulation relentlessly bombarding the mind. QOMA acts as an acoustic shield blocking these chaotic frequencies. While masking mental fatigue with the dynamics of pink, brown, blue, and violet noise profiles, it allows the soul to return to its natural tranquility.<br><br>There is no outside world here. There is only you, your mind, and an infinite digital void.",
+                cta: "Join the Experience"
+            },
+            jp: {
+                subtitle: "デジタル・サンクチュアリ",
+                scroll: "スクロールして探索",
+                sec1Title: "音の科学。<br>精神の建築。",
+                sec1Text: "QOMAは単なる聴覚体験ではありません。神経科学、音響心理学、そして高度なデジタル信号処理（DSP）技術の交差点にある、<strong>7年以上にわたる徹底した研究</strong>の結晶です。<br><br>人間の脳は、外部からのリズミカルな刺激に同調（エントレインメント）する傾向があります。QOMAは、左右の耳に微小な差異で送られる<em>バイノーラル・ビート</em>と、完璧に計算された<em>アイソクロニック・パルス</em>を使用して、脳幹に第三の内なるリズムを作り出します。デルタ波、シータ波、アルファ波、低ベータ波をターゲットにして刺激することで、混沌の中にあっても、数秒以内に深い睡眠、鋭い集中、あるいは純粋な隔離状態への移行を促します。",
+                sec2Title: "純粋な数学。<br>音声ファイルゼロ。",
+                sec2Text: "真のサンクチュアリ（聖域）は、決して自己を繰り返しません。QOMAの中心には、静的で録音された音声ファイル（MP3/WAV）の居場所はありません。<br><br>あなたが耳にするすべてのテクスチャは、デバイスのプロセッサ上でミリ秒単位でライブ生成されるジェネレーティブなアーキテクチャです。カスタム設計のアナログ・シンセサイザー・アルゴリズム、ゆっくりと呼吸するMoog風の状態変数フィルター、そして巨大なリバーブ・ネットワークを使用して、瞬時に合成されます。東洋の微分音程システム（53-TET）と西洋の和声構造のユニークな数学が、ヘッドフォンの中に、有機的に進化し続ける、かつて聞いたことのない音響空間を構築します。コード、数学、そしてハードウェアの完璧な調和です。",
+                sec3Title: "混沌からの隔離。",
+                sec3Text: "現代社会は、精神を絶え間なく砲撃する過剰刺激の海です。QOMAは、これらの混沌とした周波数をブロックする音響シールドとして機能します。ピンク、ブラウン、ブルー、バイオレットノイズのダイナミクスで精神的な疲労をマスキングしながら、魂が本来の自然な静けさに戻ることを可能にします。<br><br>ここには外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
+                cta: "今すぐ体験する"
+            }
+        };
+
+        function setLang(lang) {
+            document.getElementById('t-subtitle').innerHTML = i18n[lang].subtitle;
+            document.getElementById('t-scroll').innerHTML = i18n[lang].scroll;
+            document.getElementById('t-sec1-title').innerHTML = i18n[lang].sec1Title;
+            document.getElementById('t-sec1-text').innerHTML = i18n[lang].sec1Text;
+            document.getElementById('t-sec2-title').innerHTML = i18n[lang].sec2Title;
+            document.getElementById('t-sec2-text').innerHTML = i18n[lang].sec2Text;
+            document.getElementById('t-sec3-title').innerHTML = i18n[lang].sec3Title;
+            document.getElementById('t-sec3-text').innerHTML = i18n[lang].sec3Text;
+            document.getElementById('t-cta').innerHTML = i18n[lang].cta;
+
+            if(lang === 'en') {
+                document.getElementById('btn-en').classList.add('active');
+                document.getElementById('btn-jp').classList.remove('active');
+            } else {
+                document.getElementById('btn-jp').classList.add('active');
+                document.getElementById('btn-en').classList.remove('active');
+            }
+        }
+    </script>
 
     <!-- WEBGL VE YILDIZ MOTORU SCRİPTİ -->
     <script>
@@ -470,19 +550,11 @@
         // --- 2. BAĞIMSIZ TİTREŞEN YILDIZLAR ---
         const container = document.getElementById('starsContainer');
         const starCount = 80;
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        const exclusionRadius = 160; 
 
         for (let i = 0; i < starCount; i++) {
-            let x, y;
-            let attempts = 0;
-            do {
-                x = Math.random() * window.innerWidth;
-                y = Math.random() * window.innerHeight;
-                attempts++;
-            } while (Math.hypot(x - centerX, y - centerY) < exclusionRadius && attempts < 20);
-
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight;
+            
             const star = document.createElement('div');
             const size = 1.2 + Math.random() * 2.2;
             const baseOpacity = 0.15 + Math.random() * 0.35;
