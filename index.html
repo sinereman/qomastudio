@@ -321,6 +321,24 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
+        /* İletişim Email Alanı */
+        .contact-info {
+            margin-top: 3rem;
+        }
+
+        .contact-link {
+            color: #666666;
+            font-size: 0.75rem;
+            letter-spacing: 0.2rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #ffffff;
+        }
+
         @media (max-width: 900px) {
             .section, .section.reverse {
                 flex-direction: column;
@@ -410,13 +428,18 @@
             </div>
         </div>
 
-        <!-- BÖLÜM 4: FELSEFE (FİNALE) -->
+        <!-- BÖLÜM 4: FELSEFE VE İLETİŞİM (FİNALE) -->
         <div class="finale-section">
             <h2 class="finale-title" id="t-sec3-title">ISOLATION FROM CHAOS.</h2>
             <p class="finale-text" id="t-sec3-text">
                 The modern world is a sea of overstimulation. QOMA acts as a sensory deprivation tank, mathematically layered to block chaotic frequencies. There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
             <button class="cta-btn" id="t-cta" onclick="window.scrollTo(0, 0)">Back to Sanctuary</button>
+            
+            <!-- İletişim E-postası -->
+            <div class="contact-info">
+                <a href="mailto:contact@qoma.studio" class="contact-link">contact@qoma.studio</a>
+            </div>
         </div>
 
     </div>
