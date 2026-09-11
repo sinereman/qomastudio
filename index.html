@@ -152,10 +152,10 @@
 
         .btn-text {
             color: #FFFFFF;
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
             font-weight: 500;
             letter-spacing: 0.5rem;
-            margin-right: -0.5rem; 
+            margin-right: -0.5rem;
             text-transform: uppercase;
         }
 
@@ -210,16 +210,14 @@
         }
 
         /* --- İÇERİK BÖLÜMLERİ (CAM TASARIM) --- */
+        /* Not: eskiden metin+görsel iki sütunluydu; görseller kaldırıldığı için
+           artık tek, ortalanmış bir cam panel (glass-panel) düzeni kullanılıyor. */
         .section {
             padding: 8rem 10%;
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             min-height: 60vh;
-        }
-
-        .section.reverse {
-            flex-direction: row-reverse;
         }
 
         .glass-panel {
@@ -229,8 +227,10 @@
             -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 4rem;
-            width: 45%;
+            width: 100%;
+            max-width: 720px;
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            text-align: center;
         }
 
         .section-title {
@@ -248,34 +248,12 @@
             color: #a1a1aa;
             line-height: 1.8;
             letter-spacing: 0.05rem;
+            text-align: left;
         }
 
         .section-text strong {
             color: #ffffff;
             font-weight: 500;
-        }
-
-        /* Görsel Alanı */
-        .image-container {
-            width: 45%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .content-image {
-            width: 100%;
-            max-width: 550px;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            opacity: 0.85;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .content-image:hover {
-            opacity: 1;
-            transform: scale(1.02);
         }
 
         /* --- BÖLÜM 4: TAM EKRAN FELSEFE --- */
@@ -340,15 +318,11 @@
         }
 
         @media (max-width: 900px) {
-            .section, .section.reverse {
-                flex-direction: column;
+            .section {
                 padding: 4rem 5%;
             }
-            .glass-panel, .image-container {
-                width: 100%;
-            }
-            .image-container {
-                margin-top: 3rem;
+            .glass-panel {
+                padding: 2.5rem 2rem;
             }
             .btn-text {
                 font-size: 1.5rem;
@@ -361,17 +335,13 @@
 </head>
 <body>
 
-    <!-- GİZLİ SES ÇALAR (MP3 DOSYASI) -->
-    <audio id="bg-audio" loop>
-        <source src="qoma_ambience.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-
     <!-- DİL SEÇİCİ -->
     <div class="lang-switch">
         <span id="btn-en" class="active" onclick="setLang('en')">ENG</span>
         <span class="divider">|</span>
         <span id="btn-jp" onclick="setLang('jp')">JPN</span>
+        <span class="divider">|</span>
+        <span id="btn-tr" onclick="setLang('tr')">TUR</span>
     </div>
 
     <!-- Arka Plan Vortex Shader -->
@@ -391,40 +361,34 @@
                 <div class="ripple-effect" id="ripple"></div>
                 <span class="btn-text">QOMA</span>
             </button>
-            
+
             <div class="hero-text-container">
                 <div class="subtitle" id="t-subtitle">Digital Sanctuary</div>
                 <div class="engineer-credit">engineered by B. B. KURSAT</div>
             </div>
-            
+
             <div class="scroll-indicator" id="t-scroll">scroll to explore</div>
         </div>
 
-        <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA (GÜNCELLENMİŞ AKADEMİK METİN) -->
+        <!-- BÖLÜM 2: BİLİM VE ARAŞTIRMA -->
         <div class="section">
             <div class="glass-panel">
                 <h2 class="section-title" id="t-sec1-title">ACOUSTIC PHARMACOLOGY.<br>NEURO-ENGINEERING THE MIND.</h2>
                 <p class="section-text" id="t-sec1-text">
-                    QOMA is not an ordinary auditory experience; it is a rigorous neurophysiological tool. By bypassing traditional musical structures that trigger predictive coding, QOMA forces the brain into absolute cognitive surrender.<br><br>
-                    Utilizing <strong>16Hz and 40Hz sub-bass carriers</strong> with a precise 0.1Hz amplitude modulation, it directly stimulates the Vagus nerve to enforce cardiac coherence. Furthermore, by deploying 400Hz monaural beats and avoiding sensory dissonance through strict ERB (Equivalent Rectangular Bandwidth) filters, it biomechanically entrains your brainwaves from high Beta directly into restorative <strong>Delta (1-4 Hz)</strong> states within minutes.
+                    QOMA isn't built like ordinary music. It avoids the predictable melodic patterns that keep the mind alert, and works instead with slow-moving <strong>sub-bass layers in the 16–40Hz range</strong>, gentle amplitude modulation, and monaural beat design — techniques drawn from research on how the nervous system responds to sound.<br><br>
+                    We take that research seriously, which also means being honest about its limits: the science of brainwave entrainment is still evolving, and no two minds respond exactly alike. What QOMA offers isn't a medical claim — it's a sound environment engineered with real technique, designed to give your mind <strong>permission to slow down</strong>.
                 </p>
-            </div>
-            <div class="image-container">
-                <img src="brain_waves.png" alt="Neuroacoustic Entrainment" class="content-image" onerror="this.style.display='none'">
             </div>
         </div>
 
-        <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR (GÜNCELLENMİŞ AKADEMİK METİN) -->
-        <div class="section reverse">
+        <!-- BÖLÜM 3: MÜHENDİSLİK VE SYNTHESIZERLAR -->
+        <div class="section">
             <div class="glass-panel">
                 <h2 class="section-title" id="t-sec2-title">PURE MATHEMATICS.<br>ZERO AUDIO FILES.</h2>
                 <p class="section-text" id="t-sec2-text">
-                    A true sanctuary never repeats itself. QOMA operates on real-time generative algorithms, bypassing static MP3s to create a mathematically flawless acoustic shield.<br><br>
-                    Every texture is synthesized live on your device. We utilize Paul Kellet’s equiripple IIR filters to generate true <strong>1/f pink and brown noise dynamics</strong>, masking environmental transients and deactivating the Reticular Activating System (RAS). Combined with the harmonic purity of the 53-TET microtonal comma system, QOMA builds an organically evolving, neuro-acoustically pure void in your headphones. Pure harmony of code, mathematics, and hardware.
+                    A true sanctuary never repeats itself. QOMA runs on real-time generative algorithms instead of static audio files, building a different acoustic environment every single session.<br><br>
+                    Every texture is synthesized live, on your device. We use classic equiripple filter design, after <strong>Paul Kellet</strong>, to generate true <strong>1/f pink and brown noise</strong> — texture without harsh transients — layered with tuning inspired by the <strong>53-tone (53-TET) microtonal system</strong>, so nothing ever feels looped. No two sessions of QOMA are ever quite the same.
                 </p>
-            </div>
-            <div class="image-container">
-                <img src="synth_engine.png" alt="Generative Synthesizer Engine" class="content-image" onerror="this.style.display='none'">
             </div>
         </div>
 
@@ -432,10 +396,10 @@
         <div class="finale-section">
             <h2 class="finale-title" id="t-sec3-title">ISOLATION FROM CHAOS.</h2>
             <p class="finale-text" id="t-sec3-text">
-                The modern world is a sea of overstimulation. QOMA acts as a sensory deprivation tank, mathematically layered to block chaotic frequencies. There is no outside world here. There is only you, your mind, and an infinite digital void.
+                The modern world is a sea of overstimulation. QOMA acts as a sensory refuge — a space mathematically layered to hold the chaos outside. There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
             <button class="cta-btn" id="t-cta" onclick="window.scrollTo(0, 0)">Back to Sanctuary</button>
-            
+
             <!-- İletişim E-postası -->
             <div class="contact-info">
                 <a href="mailto:contact@qoma.studio" class="contact-link">contact@qoma.studio</a>
@@ -444,7 +408,7 @@
 
     </div>
 
-    <!-- SES TETİKLEME, DALGA EFEKTİ VE DİL SCRIPTİ -->
+    <!-- DALGA EFEKTİ VE DİL SCRIPTİ -->
     <script>
         function startExperience(event) {
             // Su damlası (Ripple) efektini tetikle
@@ -452,12 +416,6 @@
             ripple.classList.remove('ripple-active');
             void ripple.offsetWidth; // Animasyonu resetle
             ripple.classList.add('ripple-active');
-
-            // Sesi başlat
-            const audio = document.getElementById('bg-audio');
-            audio.play().catch(error => {
-                console.log("Audio play blocked or error:", error);
-            });
 
             // Sayfayı aşağı kaydır
             setTimeout(() => {
@@ -473,23 +431,34 @@
                 subtitle: "Digital Sanctuary",
                 scroll: "scroll to explore",
                 sec1Title: "ACOUSTIC PHARMACOLOGY.<br>NEURO-ENGINEERING THE MIND.",
-                sec1Text: "QOMA is not an ordinary auditory experience; it is a rigorous neurophysiological tool. By bypassing traditional musical structures that trigger predictive coding, QOMA forces the brain into absolute cognitive surrender.<br><br>Utilizing <strong>16Hz and 40Hz sub-bass carriers</strong> with a precise 0.1Hz amplitude modulation, it directly stimulates the Vagus nerve to enforce cardiac coherence. Furthermore, by deploying 400Hz monaural beats and avoiding sensory dissonance through strict ERB (Equivalent Rectangular Bandwidth) filters, it biomechanically entrains your brainwaves from high Beta directly into restorative <strong>Delta (1-4 Hz)</strong> states within minutes.",
+                sec1Text: "QOMA isn't built like ordinary music. It avoids the predictable melodic patterns that keep the mind alert, and works instead with slow-moving <strong>sub-bass layers in the 16–40Hz range</strong>, gentle amplitude modulation, and monaural beat design — techniques drawn from research on how the nervous system responds to sound.<br><br>We take that research seriously, which also means being honest about its limits: the science of brainwave entrainment is still evolving, and no two minds respond exactly alike. What QOMA offers isn't a medical claim — it's a sound environment engineered with real technique, designed to give your mind <strong>permission to slow down</strong>.",
                 sec2Title: "PURE MATHEMATICS.<br>ZERO AUDIO FILES.",
-                sec2Text: "A true sanctuary never repeats itself. QOMA operates on real-time generative algorithms, bypassing static MP3s to create a mathematically flawless acoustic shield.<br><br>Every texture is synthesized live on your device. We utilize Paul Kellet’s equiripple IIR filters to generate true <strong>1/f pink and brown noise dynamics</strong>, masking environmental transients and deactivating the Reticular Activating System (RAS). Combined with the harmonic purity of the 53-TET microtonal comma system, QOMA builds an organically evolving, neuro-acoustically pure void in your headphones. Pure harmony of code, mathematics, and hardware.",
+                sec2Text: "A true sanctuary never repeats itself. QOMA runs on real-time generative algorithms instead of static audio files, building a different acoustic environment every single session.<br><br>Every texture is synthesized live, on your device. We use classic equiripple filter design, after <strong>Paul Kellet</strong>, to generate true <strong>1/f pink and brown noise</strong> — texture without harsh transients — layered with tuning inspired by the <strong>53-tone (53-TET) microtonal system</strong>, so nothing ever feels looped. No two sessions of QOMA are ever quite the same.",
                 sec3Title: "ISOLATION FROM CHAOS.",
-                sec3Text: "The modern world is a sea of overstimulation. QOMA acts as a sensory deprivation tank, mathematically layered to block chaotic frequencies. There is no outside world here. There is only you, your mind, and an infinite digital void.",
+                sec3Text: "The modern world is a sea of overstimulation. QOMA acts as a sensory refuge — a space mathematically layered to hold the chaos outside. There is no outside world here. There is only you, your mind, and an infinite digital void.",
                 cta: "Back to Sanctuary"
             },
             jp: {
                 subtitle: "デジタル・サンクチュアリ",
                 scroll: "スクロールして探索",
                 sec1Title: "音響薬理学。<br>精神のニューロエンジニアリング。",
-                sec1Text: "QOMAは単なる聴覚体験ではなく、厳密な神経生理学的ツールです。予測コーディングを引き起こす従来の音楽構造を回避することで、QOMAは脳を絶対的な認知的降伏状態へと強制します。<br><br>正確な0.1Hzの振幅変調を持つ<strong>16Hzおよび40Hzのサブバス・キャリア</strong>を利用し、迷走神経を直接刺激して心臓のコヒーレンスを強制します。さらに、400Hzのモノラル・ビートを展開し、厳密なERB（等価矩形帯域幅）フィルターによって感覚的不協和を回避することで、数分以内に高ベータ波から回復力のある<strong>デルタ波（1-4 Hz）</strong>状態へと脳波をバイオメカニカルに同調させます。",
+                sec1Text: "QOMAは通常の音楽のようには作られていません。心を常に警戒させる予測可能なメロディー構造を避け、代わりに<strong>16〜40Hzの範囲</strong>でゆっくりと変化するサブベース層、穏やかな振幅変調、そしてモノラル・ビート設計を用いています——これらは神経系が音にどう反応するかという研究から着想を得た手法です。<br><br>私たちはこうした研究を真摯に受け止めていますが、それは同時にその限界について正直であることを意味します。脳波エントレインメントの科学はまだ発展途上であり、すべての人が同じように反応するわけではありません。QOMAが約束するのは医学的効果ではなく、本物の技術によって設計された、心に<strong>「ゆっくり休んでいい」という許可</strong>を与える音の環境です。",
                 sec2Title: "純粋な数学。<br>音声ファイルゼロ。",
-                sec2Text: "真のサンクチュアリは決して自己を繰り返しません。QOMAはリアルタイムのジェネレーティブ・アルゴリズムで動作し、静的なMP3をバイパスして、数学的に完璧な音響シールドを作成します。<br><br>すべてのテクスチャはデバイス上でライブ合成されます。Paul Kelletの等リップルIIRフィルターを使用して真の<strong>1/fピンクノイズとブラウンノイズのダイナミクス</strong>を生成し、環境の過渡現象をマスキングして網様体賦活系（RAS）を非アクティブ化します。53-TET微分音コンマシステムの調和の純度と組み合わせることで、QOMAはヘッドフォンの中に、有機的に進化する神経音響的に純粋な空間を構築します。コード、数学、ハードウェアの純粋な調和です。",
+                sec2Text: "真の聖域は決して自分自身を繰り返しません。QOMAは静的な音声ファイルの代わりにリアルタイムのジェネレーティブ・アルゴリズムで動作し、セッションごとに異なる音響環境を作り出します。<br><br>すべてのテクスチャはデバイス上でライブ合成されます。<strong>Paul Kellet</strong>による古典的な等リップル・フィルター設計を用いて、真の<strong>1/fピンクノイズとブラウンノイズ</strong>を生成します——鋭い過渡音のないテクスチャです——そこに<strong>53音(53-TET)微分音システム</strong>から着想を得たチューニングを重ね、決してループのようには感じさせません。QOMAのセッションは二つと同じものがありません。",
                 sec3Title: "混沌からの隔離。",
-                sec3Text: "現代社会は過剰刺激の海です。QOMAは感覚遮断タンクとして機能し、混沌とした周波数をブロックするために数学的に階層化されています。ここには外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
+                sec3Text: "現代社会は過剰刺激の海です。QOMAは感覚的な避難所として機能します——外の混沌を締め出すために数学的に階層化された空間です。ここに外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
                 cta: "聖域に戻る"
+            },
+            tr: {
+                subtitle: "Dijital Sığınak",
+                scroll: "keşfetmek için kaydır",
+                sec1Title: "AKUSTİK FARMAKOLOJİ.<br>ZİHNİN NÖRO-MÜHENDİSLİĞİ.",
+                sec1Text: "QOMA sıradan bir müzik gibi inşa edilmedi. Zihni sürekli tetikte tutan, tahmin edilebilir melodik örüntülerden kaçınır; onun yerine <strong>16–40Hz aralığında</strong> yavaş hareket eden sub-bas katmanları, yumuşak genlik modülasyonu ve monoral beat tasarımıyla çalışır — bunlar sinir sisteminin sese verdiği tepkiler üzerine yapılan araştırmalardan ilham alan tekniklerdir.<br><br>Bu araştırmaları ciddiye alıyoruz, bu da sınırları konusunda dürüst olmayı gerektiriyor: beyin dalgası senkronizasyonu (entrainment) bilimi hâlâ gelişen bir alan ve her zihin aynı şekilde tepki vermiyor. QOMA'nın vaat ettiği tıbbi bir etki değil — gerçek teknikle inşa edilmiş, zihnine <strong>yavaşlama izni</strong> veren bir ses ortamı.",
+                sec2Title: "SAF MATEMATİK.<br>SIFIR SES DOSYASI.",
+                sec2Text: "Gerçek bir sığınak asla kendini tekrar etmez. QOMA, sabit ses dosyaları yerine gerçek zamanlı üretken (generative) algoritmalarla çalışır; her oturumda farklı bir akustik ortam inşa eder.<br><br>Her doku, cihazında canlı olarak sentezleniyor. <strong>Paul Kellet</strong>'in eşit-dalgalanmalı (equiripple) filtre tasarımından yararlanarak gerçek <strong>1/f pembe ve kahverengi gürültü</strong> üretiyoruz — sert geçişler olmadan doku — <strong>53 tonlu (53-TET) mikrotonal sistemden</strong> ilham alan akortlamayla katmanlanıyor, böylece hiçbir şey döngü gibi hissettirmiyor. QOMA'nın hiçbir oturumu bir öncekiyle aynı değil.",
+                sec3Title: "KAOSTAN İZOLASYON.",
+                sec3Text: "Modern dünya bir aşırı-uyarılma denizi. QOMA duyusal bir sığınak gibi davranır — dışarıdaki kaosu tutmak için matematiksel olarak katmanlanmış bir alan. Burada dış dünya yok. Sadece sen, zihnin ve sonsuz bir dijital boşluk var.",
+                cta: "Sığınağa Dön"
             }
         };
 
@@ -504,13 +473,12 @@
             document.getElementById('t-sec3-text').innerHTML = i18n[lang].sec3Text;
             document.getElementById('t-cta').innerHTML = i18n[lang].cta;
 
-            if(lang === 'en') {
-                document.getElementById('btn-en').classList.add('active');
-                document.getElementById('btn-jp').classList.remove('active');
-            } else {
-                document.getElementById('btn-jp').classList.add('active');
-                document.getElementById('btn-en').classList.remove('active');
-            }
+            // 3 (ve ileride daha fazla) dil düğmesine ölçeklenebilsin diye
+            // if/else yerine tek bir eşleme üzerinden active sınıfı yönetiliyor.
+            const buttons = { en: 'btn-en', jp: 'btn-jp', tr: 'btn-tr' };
+            Object.keys(buttons).forEach((key) => {
+                document.getElementById(buttons[key]).classList.toggle('active', key === lang);
+            });
         }
     </script>
 
@@ -585,7 +553,7 @@
                     fbm(smokeP + 3.2 * q + vec2(8.3, 2.8) - t * 0.1)
                 );
                 float pattern = fbm(smokeP + 3.6 * r);
-                
+
                 vec3 colA = vec3(0.01, 0.01, 0.01);
                 vec3 colB = vec3(0.03, 0.03, 0.03);
                 vec3 colC = vec3(0.08, 0.08, 0.1);
@@ -657,11 +625,11 @@
         for (let i = 0; i < starCount; i++) {
             const x = Math.random() * window.innerWidth;
             const y = Math.random() * window.innerHeight;
-            
+
             const star = document.createElement('div');
             const size = 1.2 + Math.random() * 2.2;
             const baseOpacity = 0.15 + Math.random() * 0.35;
-            
+
             star.className = 'star';
             star.style.left = x + 'px';
             star.style.top = y + 'px';
