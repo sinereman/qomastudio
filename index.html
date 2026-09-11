@@ -281,6 +281,7 @@
         }
 
         .cta-btn {
+            display: inline-block;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: #ffffff;
@@ -289,6 +290,7 @@
             font-size: 0.8rem;
             letter-spacing: 0.3rem;
             text-transform: uppercase;
+            text-decoration: none;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -297,24 +299,6 @@
             background: rgba(255, 255, 255, 0.15);
             border-color: #ffffff;
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-        }
-
-        /* İletişim Email Alanı */
-        .contact-info {
-            margin-top: 3rem;
-        }
-
-        .contact-link {
-            color: #666666;
-            font-size: 0.75rem;
-            letter-spacing: 0.2rem;
-            text-decoration: none;
-            text-transform: uppercase;
-            transition: color 0.3s ease;
-        }
-
-        .contact-link:hover {
-            color: #ffffff;
         }
 
         @media (max-width: 900px) {
@@ -398,12 +382,7 @@
             <p class="finale-text" id="t-sec3-text">
                 The modern world is a sea of overstimulation. QOMA acts as a sensory refuge, a space mathematically layered to keep the chaos outside. There is no outside world here. There is only you, your mind, and an infinite digital void.
             </p>
-            <button class="cta-btn" id="t-cta" onclick="window.scrollTo(0, 0)">Back to Sanctuary</button>
-
-            <!-- İletişim E-postası -->
-            <div class="contact-info">
-                <a href="mailto:contact@qoma.studio" class="contact-link">contact@qoma.studio</a>
-            </div>
+            <a class="cta-btn" id="t-cta" href="mailto:contact@qoma.studio">Get in Touch</a>
         </div>
 
     </div>
@@ -436,7 +415,7 @@
                 sec2Text: "A true sanctuary never repeats itself. QOMA runs on real-time generative algorithms instead of static audio files, building a different acoustic environment every single session.<br><br>Every texture is synthesized live, on your device, using <strong>layered noise, careful filtering</strong>, and a tuning system built from the ground up for QOMA. Nothing is ever looped, because nothing is ever recorded. No two sessions of QOMA are ever quite the same.",
                 sec3Title: "ISOLATION FROM CHAOS.",
                 sec3Text: "The modern world is a sea of overstimulation. QOMA acts as a sensory refuge, a space mathematically layered to keep the chaos outside. There is no outside world here. There is only you, your mind, and an infinite digital void.",
-                cta: "Back to Sanctuary"
+                cta: "Get in Touch"
             },
             jp: {
                 subtitle: "デジタル・サンクチュアリ",
@@ -447,7 +426,7 @@
                 sec2Text: "真の聖域は決して自分自身を繰り返しません。QOMAは静的な音声ファイルの代わりにリアルタイムのジェネレーティブ・アルゴリズムで動作し、セッションごとに異なる音響環境を作り出します。<br><br>すべてのテクスチャは、<strong>重ねられたノイズ、緻密なフィルタリング</strong>、そしてQOMAのためだけにゼロから設計された独自の調律システムによって、デバイス上でライブ合成されます。何も録音されていないので、何もループしません。QOMAのセッションは二つと同じものがありません。",
                 sec3Title: "混沌からの隔離。",
                 sec3Text: "現代社会は過剰刺激の海です。QOMAは感覚的な避難所として機能します。外の混沌を締め出すために数学的に階層化された空間です。ここに外の世界はありません。あるのはあなたと、あなたの心、そして無限のデジタル空間だけです。",
-                cta: "聖域に戻る"
+                cta: "お問い合わせ"
             },
             tr: {
                 subtitle: "Dijital Sığınak",
@@ -458,7 +437,7 @@
                 sec2Text: "Gerçek bir sığınak asla kendini tekrar etmez. QOMA, sabit ses dosyaları yerine gerçek zamanlı üretken (generative) algoritmalarla çalışır; her oturumda farklı bir akustik ortam inşa eder.<br><br>Her doku, <strong>katmanlı gürültü, özenli filtreleme</strong> ve tamamen QOMA için sıfırdan kurulmuş bir akort sistemiyle cihazında canlı olarak sentezleniyor. Hiçbir şey döngüye girmiyor, çünkü hiçbir şey kaydedilmiyor. QOMA'nın hiçbir oturumu bir öncekiyle aynı değil.",
                 sec3Title: "KAOSTAN İZOLASYON.",
                 sec3Text: "Modern dünya bir aşırı-uyarılma denizi. QOMA duyusal bir sığınak gibi davranır. Kaosu dışarda tutmak için matematiksel olarak katmanlanmış bir alandır. Burada dış dünya yok. Sadece sen, zihnin ve sonsuz bir dijital boşluk var.",
-                cta: "Sığınağa Dön"
+                cta: "İletişime Geç"
             }
         };
 
